@@ -27,6 +27,14 @@ O projeto foi reiniciado para superar as inconsistências e omissões dos planos
 | **Validação de Dados** | **VineJS / Zod** | Validação centralizada e estrita de payloads antes da persistência |
 | **Cache & Fila Assíncrona**| **Redis 7 + BullMQ** | Sessões distribuídas, filas de processamento pesado (e-SUS, BPA) e cotas |
 
+### 1.2. Diretriz de UX/UI: Arquitetura Baseada em Modais (Padrão ShowModal)
+
+Para manter a fidelidade e produtividade do sistema desktop Delphi (`ShowModal`), **todas as telas operacionais, formulários de criação, edição, triagem, prescrição e visualizações detalhadas operam como Modais (Dialogs Radix UI)**:
+1. **Preservação de Contexto**: A tela mestre/listagem permanece montada ao fundo com filtros, busca, ordenação e scroll inalterados.
+2. **Zero Perda de Estado**: O operador abre e fecha formulários sem recargas de página inteira.
+3. **Reatividade e Transparência**: Inclusões e alterações atualizam a listagem subjacente via Inertia `router.reload` ou `redirect().back()` com toasts informativos.
+4. **Regra Contratual**: A partir da Etapa 04 (PEP) e em todas as etapas subsequentes, qualquer formulário de atendimento, exame, receita, agendamento ou dispensação deve ser estritamente implementado como componente de Modal.
+
 ---
 
 ## 2. Auditoria Matemática do Acervo Delphi

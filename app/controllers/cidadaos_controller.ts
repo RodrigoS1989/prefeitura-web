@@ -95,7 +95,7 @@ export default class CidadaosController {
     await CacheService.delPattern('cidadaos:*')
 
     session.flash('success', 'Cidadão cadastrado com sucesso!')
-    return response.redirect().toPath(`/cidadaos/${cidadao.id}`)
+    return response.redirect().toPath('/cidadaos')
   }
 
   /**
@@ -221,7 +221,7 @@ export default class CidadaosController {
     await CacheService.delPattern('cidadaos:*')
 
     session.flash('success', 'Cadastro atualizado com sucesso!')
-    return response.redirect().toPath(`/cidadaos/${cidadao.id}`)
+    return response.redirect().toPath('/cidadaos')
   }
 
   /**

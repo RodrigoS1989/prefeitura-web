@@ -29,7 +29,7 @@ export default function Dashboard() {
           <Badge variant="outline" className="font-mono text-xs text-emerald-600 border-emerald-500/30 bg-emerald-500/5">
             ● Sistema Online (AdonisJS 6)
           </Badge>
-          <Link href="/cidadaos">
+          <Link href="/cidadaos?novo=true">
             <Button size="sm" className="gap-1.5">
               <Users className="h-4 w-4" /> Novo Cidadão
             </Button>

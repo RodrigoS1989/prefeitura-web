@@ -36,6 +36,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import AppLayout from '~/layouts/AppLayout'
+import { CidadaoFormModal, type CidadaoFormData } from '~/components/cidadaos/cidadao_form_modal'
+import { CidadaoDetailsModal } from '~/components/cidadaos/cidadao_details_modal'
 
 interface CidadaoItem {
   id: number
@@ -44,13 +46,27 @@ interface CidadaoItem {
   cpf: string | null
   cns: string | null
   nis: string | null
+  rg?: string | null
+  rgOrgaoEmissor?: string | null
+  nomeMae?: string | null
+  nomePai?: string | null
   dataNascimento: string
   sexo: string
+  racaCor?: string | null
+  nacionalidade?: string
+  cep?: string | null
+  logradouro?: string | null
+  numero?: string | null
+  complemento?: string | null
+  bairro?: string | null
   municipio: string
   uf: string
   unidadeSaude: string
   telefoneCelular: string | null
+  telefoneFixo?: string | null
+  email?: string | null
   situacaoCadastral: 'ativo' | 'inativo' | 'obito'
+  observacoes?: string | null
 }
 
 interface PaginatedCidadaos {
@@ -80,6 +96,23 @@ const CidadaosIndex: React.FC<Props> & { layout?: (page: React.ReactNode) => Rea
   const [searchTerm, setSearchTerm] = useState(filters.search || '')
   const [situacaoFilter, setSituacaoFilter] = useState(filters.situacao || '')
   const [selectedForDelete, setSelectedForDelete] = useState<CidadaoItem | null>(null)
+
+  // Estados dos Modais
+  const [formModalOpen, setFormModalOpen] = useState(false)
+  const [selectedForEdit, setSelectedForEdit] = useState<CidadaoFormData | null>(null)
+  const [detailsModalOpen, setDetailsModalOpen] = useState(false)
+  const [selectedForDetails, setSelectedForDetails] = useState<CidadaoFormData | null>(null)
+
+  // Abertura automática se vier de link externo com ?novo=true
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('novo') === 'true' || params.get('action') === 'novo') {
+        setSelectedForEdit(null)
+        setFormModalOpen(true)
+      }
+    }
+  }, [])
 
   // Debounce search
   useEffect(() => {
@@ -126,11 +159,15 @@ const CidadaosIndex: React.FC<Props> & { layout?: (page: React.ReactNode) => Rea
           </p>
         </div>
 
-        <Link href="/cidadaos/novo">
-          <Button className="gap-2 shadow-sm">
-            <Plus className="h-4 w-4" /> Novo Cidadão
-          </Button>
-        </Link>
+        <Button
+          className="gap-2 shadow-sm"
+          onClick={() => {
+            setSelectedForEdit(null)
+            setFormModalOpen(true)
+          }}
+        >
+          <Plus className="h-4 w-4" /> Novo Cidadão
+        </Button>
       </div>
 
       {/* Filter and Search Bar */}
@@ -284,16 +321,30 @@ const CidadaosIndex: React.FC<Props> & { layout?: (page: React.ReactNode) => Rea
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-1">
-                          <Link href={`/cidadaos/${c.id}`} title="Visão 360° do Cidadão">
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-primary hover:text-primary hover:bg-primary/10">
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </Link>
-                          <Link href={`/cidadaos/${c.id}/editar`} title="Editar Cadastro">
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
-                              <Edit2 className="h-4 w-4" />
-                            </Button>
-                          </Link>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-primary hover:text-primary hover:bg-primary/10"
+                            title="Visão 360° do Cidadão (Modal)"
+                            onClick={() => {
+                              setSelectedForDetails(c as any)
+                              setDetailsModalOpen(true)
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                            title="Editar Cadastro (Modal)"
+                            onClick={() => {
+                              setSelectedForEdit(c as any)
+                              setFormModalOpen(true)
+                            }}
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"
@@ -362,6 +413,27 @@ const CidadaosIndex: React.FC<Props> & { layout?: (page: React.ReactNode) => Rea
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Modal de Cadastro e Edição de Munícipe (UPM002.pas) */}
+      <CidadaoFormModal
+        open={formModalOpen}
+        onOpenChange={setFormModalOpen}
+        cidadao={selectedForEdit}
+        onSuccess={() => {
+          router.reload({ only: ['cidadaos'] })
+        }}
+      />
+
+      {/* Modal de Perfil 360° e Detalhes do Cidadão */}
+      <CidadaoDetailsModal
+        open={detailsModalOpen}
+        onOpenChange={setDetailsModalOpen}
+        cidadao={selectedForDetails}
+        onEdit={(c) => {
+          setSelectedForEdit(c)
+          setFormModalOpen(true)
+        }}
+      />
     </div>
   )
 }

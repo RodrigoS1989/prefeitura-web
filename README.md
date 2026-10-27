@@ -15,6 +15,16 @@ Sistema web integrado de gestão municipal para Saúde, Cidadania, Território e
 
 ---
 
+## 🪟 Diretriz Arquitetural de Interface: Todas as Telas em Modais
+
+Fiel à ergonomia e agilidade operacional do sistema desktop original Delphi (`ShowModal`), **todas as telas de operação, cadastros, edições e visões detalhadas operam como Modais (Dialogs Radix UI / Shadcn)**:
+- **Preservação Integral de Contexto**: A listagem principal permanece montada ao fundo, conservando estado de busca, filtros, paginação e scroll.
+- **Operação Sem Troca Brusca de Página**: Cadastros, edições e perfis 360° abrem instantaneamente em modais ricos com navegação por abas.
+- **Feedback & Recarga Transparente**: Ao confirmar a ação, os dados são salvos via Inertia e a listagem se atualiza sem recarregar a página inteira.
+- **Padrão Obrigatório**: De agora em diante, todos os novos módulos (PEP, Farmácia, Agendamentos, etc.) devem seguir rigorosamente essa arquitetura baseada em modais.
+
+---
+
 ## 📊 Status da Refatoração (12 Etapas)
 
 | Etapa | Módulo | Status | Descrição |
