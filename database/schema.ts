@@ -222,6 +222,39 @@ export class DiagnosticosAtendimentoSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class DispensacoeSchema extends BaseModel {
+  static $columns = ['atendimentoId', 'cidadaoId', 'createdAt', 'dataReceita', 'farmaceuticoDispensadorId', 'id', 'numeroDispensacao', 'numeroReceita', 'observacoes', 'profissionalPrescritorId', 'status', 'tipoDispensacao', 'unidadeSaudeId', 'updatedAt'] as const
+  $columns = DispensacoeSchema.$columns
+  @column()
+  declare atendimentoId: number | null
+  @column()
+  declare cidadaoId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.date()
+  declare dataReceita: DateTime | null
+  @column()
+  declare farmaceuticoDispensadorId: number | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare numeroDispensacao: string
+  @column()
+  declare numeroReceita: string | null
+  @column()
+  declare observacoes: string | null
+  @column()
+  declare profissionalPrescritorId: number | null
+  @column()
+  declare status: string | null
+  @column()
+  declare tipoDispensacao: string | null
+  @column()
+  declare unidadeSaudeId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class EspecialidadesMedicaSchema extends BaseModel {
   static $columns = ['codigo', 'createdAt', 'descricao', 'id', 'nome', 'registroConselho', 'updatedAt'] as const
   $columns = EspecialidadesMedicaSchema.$columns
@@ -268,6 +301,54 @@ export class EvolucoesClinicaSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class GruposMedicamentoSchema extends BaseModel {
+  static $columns = ['ativo', 'codigo', 'createdAt', 'id', 'nome', 'tipoControleEspecial', 'updatedAt'] as const
+  $columns = GruposMedicamentoSchema.$columns
+  @column()
+  declare ativo: boolean | null
+  @column()
+  declare codigo: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nome: string
+  @column()
+  declare tipoControleEspecial: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ItensDispensacaoSchema extends BaseModel {
+  static $columns = ['createdAt', 'dispensacaoId', 'estornado', 'id', 'loteId', 'medicamentoId', 'posologia', 'proximaDispensacaoEm', 'quantidadeDispensada', 'quantidadePrescrita', 'tempoTratamentoDias', 'updatedAt'] as const
+  $columns = ItensDispensacaoSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare dispensacaoId: number
+  @column()
+  declare estornado: boolean | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare loteId: number
+  @column()
+  declare medicamentoId: number
+  @column()
+  declare posologia: string | null
+  @column.date()
+  declare proximaDispensacaoEm: DateTime | null
+  @column()
+  declare quantidadeDispensada: number
+  @column()
+  declare quantidadePrescrita: number
+  @column()
+  declare tempoTratamentoDias: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class LogradouroSchema extends BaseModel {
   static $columns = ['bairroId', 'cep', 'createdAt', 'id', 'municipioId', 'nome', 'tipo', 'updatedAt'] as const
   $columns = LogradouroSchema.$columns
@@ -287,6 +368,123 @@ export class LogradouroSchema extends BaseModel {
   declare tipo: string | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class LotesMedicamentoSchema extends BaseModel {
+  static $columns = ['createdAt', 'dataFabricacao', 'dataValidade', 'fabricante', 'fornecedorCnpj', 'id', 'medicamentoId', 'numeroLote', 'numeroNotaFiscal', 'precoUnitarioCompra', 'quantidadeAtual', 'quantidadeInicial', 'status', 'unidadeSaudeId', 'updatedAt'] as const
+  $columns = LotesMedicamentoSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.date()
+  declare dataFabricacao: DateTime | null
+  @column.date()
+  declare dataValidade: DateTime
+  @column()
+  declare fabricante: string | null
+  @column()
+  declare fornecedorCnpj: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare medicamentoId: number
+  @column()
+  declare numeroLote: string
+  @column()
+  declare numeroNotaFiscal: string | null
+  @column()
+  declare precoUnitarioCompra: number | null
+  @column()
+  declare quantidadeAtual: number
+  @column()
+  declare quantidadeInicial: number
+  @column()
+  declare status: string | null
+  @column()
+  declare unidadeSaudeId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class MedicamentoSchema extends BaseModel {
+  static $columns = ['ativo', 'bloqueado', 'catmatCodigo', 'cestaBasica', 'codigo', 'codigoBarras', 'concentracao', 'createdAt', 'custoMedioPonderado', 'estoqueIdeal', 'estoqueMinimo', 'exigeReceitaRetida', 'formaFarmaceutica', 'grupoId', 'id', 'motivoBloqueio', 'nomeComercial', 'permiteFracionamento', 'pertenceRemume', 'principioAtivo', 'tipoControle', 'unidadeFornecimento', 'updatedAt', 'viaAdministracao'] as const
+  $columns = MedicamentoSchema.$columns
+  @column()
+  declare ativo: boolean | null
+  @column()
+  declare bloqueado: boolean | null
+  @column()
+  declare catmatCodigo: string | null
+  @column()
+  declare cestaBasica: boolean | null
+  @column()
+  declare codigo: string
+  @column()
+  declare codigoBarras: string | null
+  @column()
+  declare concentracao: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare custoMedioPonderado: number | null
+  @column()
+  declare estoqueIdeal: number | null
+  @column()
+  declare estoqueMinimo: number | null
+  @column()
+  declare exigeReceitaRetida: boolean | null
+  @column()
+  declare formaFarmaceutica: string
+  @column()
+  declare grupoId: number | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare motivoBloqueio: string | null
+  @column()
+  declare nomeComercial: string | null
+  @column()
+  declare permiteFracionamento: boolean | null
+  @column()
+  declare pertenceRemume: boolean | null
+  @column()
+  declare principioAtivo: string
+  @column()
+  declare tipoControle: string | null
+  @column()
+  declare unidadeFornecimento: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare viaAdministracao: string
+}
+
+export class MovimentacoesEstoqueSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'loteId', 'medicamentoId', 'motivoAjuste', 'numeroDocumento', 'quantidade', 'saldoAnterior', 'saldoPosterior', 'tipoMovimentacao', 'unidadeSaudeId', 'usuarioOperadorId'] as const
+  $columns = MovimentacoesEstoqueSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare loteId: number
+  @column()
+  declare medicamentoId: number
+  @column()
+  declare motivoAjuste: string | null
+  @column()
+  declare numeroDocumento: string | null
+  @column()
+  declare quantidade: number
+  @column()
+  declare saldoAnterior: number
+  @column()
+  declare saldoPosterior: number
+  @column()
+  declare tipoMovimentacao: string
+  @column()
+  declare unidadeSaudeId: number
+  @column()
+  declare usuarioOperadorId: number | null
 }
 
 export class MunicipioSchema extends BaseModel {

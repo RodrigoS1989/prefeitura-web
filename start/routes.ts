@@ -87,6 +87,15 @@ router.post('/atendimentos/:id/pep/prescricao', [PepController, 'storePrescricao
 router.post('/atendimentos/:id/pep/exame', [PepController, 'storeExame']).as('pep.exame')
 router.post('/atendimentos/:id/pep/atestado', [PepController, 'storeAtestado']).as('pep.atestado')
 
+// Módulo Farmácia Municipal, Estoque REMUME e Dispensação FEFO (Etapa 05: UPM266, UPM908, UPM271)
+const FarmaciaController = () => import('#controllers/farmacia_controller')
+
+router.get('/farmacia', [FarmaciaController, 'index']).as('farmacia.index')
+router.post('/farmacia/medicamentos', [FarmaciaController, 'storeMedicamento']).as('farmacia.medicamentos.store')
+router.post('/farmacia/lotes', [FarmaciaController, 'storeLote']).as('farmacia.lotes.store')
+router.get('/api/farmacia/medicamentos/:id/lotes', [FarmaciaController, 'lotesPorMedicamento']).as('api.farmacia.lotes')
+router.post('/farmacia/dispensar', [FarmaciaController, 'dispensar']).as('farmacia.dispensar')
+
 // Sessão & Logout (Etapa 00)
 router.post('logout', [controllers.Session, 'destroy'])
 
