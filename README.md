@@ -33,7 +33,7 @@ Fiel à ergonomia e agilidade operacional do sistema desktop original Delphi (`S
 | **E01** | Cidadãos & CadÚnico | ✅ Concluída | Refatoração UPM002 (`PMD018`), validação CNS/CPF, busca fonética e perfil 360° |
 | **E02** | Território & Parâmetros | ✅ Concluída | Bairros (`IMO001`), logradouros (`IMO002`), secretarias e parâmetros institucionais |
 | **E03** | Unidades & Profissionais | ✅ Concluída | Unidades de saúde (`ARQ005`/CNES), profissionais (`ARQ020`), CBO 2002 e lotações |
-| **E04** | Atendimento Clínico & PEP | ⏳ Próxima | Prontuário Eletrônico, acolhimento, triagem Manchester e SOAP clínico (`FTD*`) |
+| **E04** | Atendimento Clínico & PEP | ✅ Concluída | Prontuário Eletrônico, acolhimento, triagem Manchester (5 cores) e SOAP clínico (`FTD*`), 100% em modais |
 | **E05** | Farmácia Municipal | 📋 Planejada | Catálogo REMUME, dispensação, rastreabilidade de lotes e validade FEFO |
 | **E06** | Agendamento & Regulação | 📋 Planejada | Agendamento de consultas e exames, regulação de cotas e Redis Locks |
 | **E07** | Faturamento SUS | 📋 Planejada | Produção ambulatorial BPA/APAC e cruzamento SIGTAP |

@@ -68,5 +68,25 @@ router.post('/profissionais', [ProfissionaisController, 'store']).as('profission
 router.put('/profissionais/:id', [ProfissionaisController, 'update']).as('profissionais.update')
 router.get('/api/profissionais/search', [ProfissionaisController, 'apiSearch']).as('api.profissionais.search')
 
+// Módulo Recepção, Triagem Manchester & PEP (Etapa 4: Refatoração de UPM067, UPM976, UPM045, UPM764)
+const AtendimentosController = () => import('#controllers/atendimentos_controller')
+const PepController = () => import('#controllers/pep_controller')
+
+router.get('/atendimentos', [AtendimentosController, 'index']).as('atendimentos.index')
+router.post('/atendimentos', [AtendimentosController, 'store']).as('atendimentos.store')
+router.post('/atendimentos/:id/triagem', [AtendimentosController, 'triagem']).as('atendimentos.triagem')
+router.post('/atendimentos/:id/chamar', [AtendimentosController, 'chamar']).as('atendimentos.chamar')
+router.post('/atendimentos/:id/cancelar', [AtendimentosController, 'cancelar']).as('atendimentos.cancelar')
+router.post('/atendimentos/:id/finalizar', [AtendimentosController, 'finalizar']).as('atendimentos.finalizar')
+router.get('/api/cidadaos/search', [AtendimentosController, 'apiSearchCidadaos']).as('api.cidadaos.search')
+
+// PEP (Prontuário Eletrônico do Paciente)
+router.get('/api/pep/:id', [PepController, 'show']).as('api.pep.show')
+router.post('/atendimentos/:id/pep/evolucao', [PepController, 'storeEvolucao']).as('pep.evolucao')
+router.post('/atendimentos/:id/pep/prescricao', [PepController, 'storePrescricao']).as('pep.prescricao')
+router.post('/atendimentos/:id/pep/exame', [PepController, 'storeExame']).as('pep.exame')
+router.post('/atendimentos/:id/pep/atestado', [PepController, 'storeAtestado']).as('pep.atestado')
+
 // Sessão & Logout (Etapa 00)
 router.post('logout', [controllers.Session, 'destroy'])
+

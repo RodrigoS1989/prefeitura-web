@@ -45,7 +45,7 @@ export const navigationItems: NavItem[] = [
   { label: 'Parâmetros Gerais', href: '/configuracoes/parametros', icon: Settings, badge: 'Etapa 2', category: 'Geral', available: true },
   { label: 'Unidades de Saúde (UBS)', href: '/unidades', icon: Building2, badge: 'Etapa 3', category: 'Saúde', available: true },
   { label: 'Profissionais & CBO', href: '/profissionais', icon: Stethoscope, badge: 'Etapa 3', category: 'Saúde', available: true },
-  { label: 'Atendimento & PEP', href: '/atendimentos', icon: Activity, badge: 'Em breve (E4)', category: 'Saúde', available: false },
+  { label: 'Atendimento & PEP', href: '/atendimentos', icon: Activity, badge: 'Etapa 4', category: 'Saúde', available: true },
   { label: 'Farmácia Municipal', href: '/farmacia', icon: Pill, badge: 'Em breve (E5)', category: 'Farmácia & Regulação', available: false },
   { label: 'Agendamento & Regulação', href: '/agendamentos', icon: Calendar, badge: 'Em breve (E6)', category: 'Farmácia & Regulação', available: false },
   { label: 'Assistência Social', href: '/social', icon: HeartHandshake, badge: 'Em breve (E8)', category: 'Cidadania', available: false },
