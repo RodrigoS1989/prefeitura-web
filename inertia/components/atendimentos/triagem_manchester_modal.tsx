@@ -130,10 +130,10 @@ export function TriagemManchesterModal({ open, onOpenChange, atendimento, onSucc
       cor: 'VERMELHO',
       nome: 'Vermelho - Emergência',
       tempo: '0 min (Imediato)',
-      border: 'border-red-500',
-      bgActive: 'bg-red-600 text-white shadow-lg',
-      bgInactive: 'bg-red-50 text-red-900 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900',
-      badgeColor: 'bg-red-600',
+      border: 'border-rose-600',
+      bgActive: 'bg-rose-600 text-white shadow-lg border-rose-700 font-bold ring-2 ring-rose-500/40',
+      bgInactive: 'bg-rose-50/70 text-rose-900 border-rose-200 dark:bg-rose-950/30 dark:text-rose-300 dark:border-rose-900',
+      badgeColor: 'bg-rose-600',
       discriminadores: [
         'Parada cardiorrespiratória',
         'Obstrução de vias aéreas / Sufocação',
@@ -147,8 +147,8 @@ export function TriagemManchesterModal({ open, onOpenChange, atendimento, onSucc
       nome: 'Laranja - Muito Urgente',
       tempo: '10 minutos',
       border: 'border-orange-500',
-      bgActive: 'bg-orange-500 text-white shadow-lg',
-      bgInactive: 'bg-orange-50 text-orange-900 border-orange-200 dark:bg-orange-950/30 dark:text-orange-300 dark:border-orange-900',
+      bgActive: 'bg-orange-500 text-white shadow-lg border-orange-600 font-bold ring-2 ring-orange-400/40',
+      bgInactive: 'bg-orange-50/70 text-orange-900 border-orange-200 dark:bg-orange-950/30 dark:text-orange-300 dark:border-orange-900',
       badgeColor: 'bg-orange-500',
       discriminadores: [
         'Dor torácica típica com irradiação',
@@ -164,9 +164,9 @@ export function TriagemManchesterModal({ open, onOpenChange, atendimento, onSucc
       nome: 'Amarelo - Urgente',
       tempo: '60 minutos',
       border: 'border-amber-500',
-      bgActive: 'bg-amber-500 text-white shadow-lg',
-      bgInactive: 'bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900',
-      badgeColor: 'bg-amber-500',
+      bgActive: 'bg-amber-300 text-amber-950 shadow-lg border-amber-600 font-black ring-2 ring-amber-400/50',
+      bgInactive: 'bg-amber-50/70 text-amber-950 border-amber-300 dark:bg-amber-950/40 dark:text-amber-200 dark:border-amber-800',
+      badgeColor: 'bg-amber-400',
       discriminadores: [
         'Febre persistente em lactente/idoso',
         'Dor moderada contínua (EVA 4 a 7)',
@@ -179,9 +179,9 @@ export function TriagemManchesterModal({ open, onOpenChange, atendimento, onSucc
       cor: 'VERDE',
       nome: 'Verde - Pouco Urgente',
       tempo: '120 minutos',
-      border: 'border-emerald-500',
-      bgActive: 'bg-emerald-600 text-white shadow-lg',
-      bgInactive: 'bg-emerald-50 text-emerald-900 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900',
+      border: 'border-emerald-600',
+      bgActive: 'bg-emerald-600 text-white shadow-lg border-emerald-700 font-bold ring-2 ring-emerald-500/40',
+      bgInactive: 'bg-emerald-50/70 text-emerald-900 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900',
       badgeColor: 'bg-emerald-600',
       discriminadores: [
         'Queixa aguda sem sinais de alerta',
@@ -195,10 +195,10 @@ export function TriagemManchesterModal({ open, onOpenChange, atendimento, onSucc
       cor: 'AZUL',
       nome: 'Azul - Não Urgente',
       tempo: '240 minutos',
-      border: 'border-blue-500',
-      bgActive: 'bg-blue-600 text-white shadow-lg',
-      bgInactive: 'bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-950/30 dark:text-blue-300 dark:border-blue-900',
-      badgeColor: 'bg-blue-600',
+      border: 'border-sky-600',
+      bgActive: 'bg-sky-600 text-white shadow-lg border-sky-700 font-bold ring-2 ring-sky-500/40',
+      bgInactive: 'bg-sky-50/70 text-sky-900 border-sky-200 dark:bg-sky-950/30 dark:text-sky-300 dark:border-sky-900',
+      badgeColor: 'bg-sky-600',
       discriminadores: [
         'Troca ou renovação de receita médica',
         'Queixa crônica sem qualquer alteração recente',
@@ -556,16 +556,16 @@ export function TriagemManchesterModal({ open, onOpenChange, atendimento, onSucc
             <Button
               type="submit"
               disabled={isSubmitting || !discriminadorManchester}
-              className={`text-white font-semibold flex items-center gap-2 ${
+              className={`font-bold flex items-center gap-2 shadow-md transition-all ${
                 prioridadeManchester === 'VERMELHO'
-                  ? 'bg-red-600 hover:bg-red-700'
+                  ? 'bg-rose-600 hover:bg-rose-700 text-white ring-2 ring-rose-500/50'
                   : prioridadeManchester === 'LARANJA'
-                  ? 'bg-orange-500 hover:bg-orange-600'
+                  ? 'bg-orange-500 hover:bg-orange-600 text-white ring-2 ring-orange-400/50'
                   : prioridadeManchester === 'AMARELO'
-                  ? 'bg-amber-600 hover:bg-amber-700'
+                  ? 'bg-amber-300 hover:bg-amber-400 text-amber-950 border border-amber-500 ring-2 ring-amber-400/50 font-black'
                   : prioridadeManchester === 'VERDE'
-                  ? 'bg-emerald-600 hover:bg-emerald-700'
-                  : 'bg-blue-600 hover:bg-blue-700'
+                  ? 'bg-emerald-600 hover:bg-emerald-700 text-white ring-2 ring-emerald-500/50'
+                  : 'bg-sky-600 hover:bg-sky-700 text-white ring-2 ring-sky-500/50'
               }`}
             >
               {isSubmitting ? (

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prefeitura Web | Sistema Integrado de Saúde & Assistência Social</title>
+  <meta name="description" content="Demonstração interativa do sistema Prefeitura Web: Atendimento Ambulatorial, Protocolo Manchester de Triagem e Prontuário Eletrônico do Paciente (PEP).">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            manchester: {
+              vermelho: '#dc2626',
+              laranja: '#ea580c',
+              amarelo: '#f59e0b',
+              verde: '#10b981',
+              azul: '#3b82f6',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-mono { font-family: 'JetBrains+Mono', monospace; }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .calling-pulse {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+
+  <!-- TOP BAR -->
+  <header class="bg-slate-950/90 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white font-black text-xl">
+          🏛️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg text-white tracking-tight">Prefeitura Web</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium">v1.0.4 Online</span>
+          </div>
+          <p class="text-xs text-slate-400">Sistema Municipal de Saúde Pública • Triagem Manchester & PEP</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/RodrigoS1989/prefeitura-web" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>Ver no GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO / SYSTEM SUMMARY -->
+  <section class="border-b border-slate-800 bg-gradient-to-b from-slate-950 to-slate-900 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 mb-3">
+            ✨ Etapa 04 Concluída: Atendimento Ambulatorial, Manchester & PEP
+          </span>
+          <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Ambiente de Demonstração & Acesso Web
+          </h1>
+          <p class="mt-2 text-slate-400 max-w-2xl text-sm sm:text-base">
+            Plataforma municipal desenvolvida em <strong>AdonisJS 6</strong>, <strong>React 19</strong>, <strong>Inertia.js</strong> e <strong>Tailwind CSS</strong>, substituindo legados desktop por uma interface web clínica de alto contraste, ágil e 100% modal.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center shrink-0">
+          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+            <div class="text-2xl font-black text-emerald-400">23/23</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Testes Japa</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+            <div class="text-2xl font-black text-cyan-400">100%</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Modais SPA</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+            <div class="text-2xl font-black text-amber-400">5 Níveis</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Manchester</div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+            <div class="text-2xl font-black text-indigo-400">SOAP</div>
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Evolução PEP</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="flex items-center gap-2 mt-8 border-b border-slate-800 overflow-x-auto pb-px">
+        <button onclick="switchTab('totem')" id="tab-totem" class="tab-btn active px-4 py-2.5 text-sm font-semibold border-b-2 border-cyan-500 text-cyan-400 flex items-center gap-2">
+          📺 Totem & Painel de Chamada TV
+        </button>
+        <button onclick="switchTab('pep')" id="tab-pep" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+          🩺 Prontuário Eletrônico (PEP)
+        </button>
+        <button onclick="switchTab('manchester')" id="tab-manchester" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+          🚦 Protocolo Manchester de Triagem
+        </button>
+        <button onclick="switchTab('acolhimento')" id="tab-acolhimento" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+          📋 Acolhimento & FAA
+        </button>
+        <button onclick="switchTab('modulos')" id="tab-modulos" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+          🏛️ Módulos & Arquitetura
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN INTERACTIVE CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+    <!-- 1. TAB: TOTEM & PAINEL DE CHAMADA TV -->
+    <div id="content-totem" class="tab-content space-y-6">
+      <div class="flex flex-col lg:flex-row gap-6 items-start">
+        
+        <!-- DISPLAY TV BOX -->
+        <div class="w-full lg:w-2/3 bg-slate-950 border-2 border-cyan-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-cyan-950/50 relative overflow-hidden">
+          <div class="absolute -right-16 -top-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs font-mono tracking-widest text-cyan-400 uppercase font-semibold">PAINEL DIGITAL AMBULATORIAL • SALA DE ESPERA</span>
+            </div>
+            <div id="clock" class="text-sm font-mono text-slate-400 font-bold">15:30:00</div>
+          </div>
+
+          <div class="my-8 text-center py-6 bg-slate-900/60 rounded-xl border border-slate-800/80 calling-pulse">
+            <div class="text-xs font-mono uppercase tracking-widest text-slate-400 mb-1">CHAMADA ATUAL EM TELA</div>
+            <div id="tv-senha" class="text-6xl sm:text-7xl font-black font-mono tracking-wider text-cyan-400 drop-shadow-[0_0_25px_rgba(6,182,212,0.4)]">
+              C-042
+            </div>
+            <div id="tv-paciente" class="text-xl sm:text-2xl font-bold text-white mt-3">
+              MARIA DA SILVA SANTOS
+            </div>
+            <div class="mt-4 flex items-center justify-center gap-4 flex-wrap">
+              <span id="tv-consultorio" class="px-4 py-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-sm font-bold">
+                CONSULTÓRIO 02 - CLÍNICA MÉDICA
+              </span>
+              <span id="tv-badge" class="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-amber-300 text-amber-950 border border-amber-500 shadow-sm">
+                ● AMARELO • URGENTE (60 MIN)
+              </span>
+            </div>
+          </div>
+
+          <!-- HISTORICO ULTIMAS CHAMADAS -->
+          <div>
+            <div class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">ÚLTIMAS SENHAS CHAMADAS</div>
+            <div id="tv-historico" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-cyan-400 font-bold">C-041</div>
+                  <div class="text-xs text-slate-300 truncate max-w-[120px]">João Pedro de Souza</div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-600 text-white">VERDE</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-cyan-400 font-bold">C-040</div>
+                  <div class="text-xs text-slate-300 truncate max-w-[120px]">Ana Clara Ferreira</div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-orange-600 text-white">LARANJA</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-cyan-400 font-bold">C-039</div>
+                  <div class="text-xs text-slate-300 truncate max-w-[120px]">Carlos Eduardo Lima</div>
+                </div>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-600 text-white">AZUL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTROLES DO OPERADOR / TOTEM -->
+        <div class="w-full lg:w-1/3 space-y-4">
+          <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <span>🔔 Controle de Chamada em Consultório</span>
+            </h3>
+            <p class="text-xs text-slate-400">
+              Simule a chamada de senhas pelo médico ou triagem. Toca aviso sonoro do totem e pisca o monitor.
+            </p>
+
+            <div class="space-y-2">
+              <label class="text-xs font-semibold text-slate-300">Selecione Consultório:</label>
+              <select id="ctrl-consultorio" class="w-full text-xs p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white">
+                <option value="CONSULTÓRIO 01 - PEDIATRIA">Consultório 01 - Pediatria</option>
+                <option value="CONSULTÓRIO 02 - CLÍNICA MÉDICA" selected>Consultório 02 - Clínica Médica</option>
+                <option value="CONSULTÓRIO 03 - GINECOLOGIA">Consultório 03 - Ginecologia</option>
+                <option value="SALA 04 - TRIAGEM MANCHESTER">Sala 04 - Triagem Manchester</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+              <button onclick="chamarProxima('amarelo')" class="px-3 py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
+                <span>🔔 Chamar Amarelo</span>
+              </button>
+              <button onclick="chamarProxima('laranja')" class="px-3 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
+                <span>🚨 Chamar Laranja</span>
+              </button>
+              <button onclick="chamarProxima('vermelho')" class="px-3 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
+                <span>⚡ Chamar Vermelho</span>
+              </button>
+              <button onclick="chamarProxima('verde')" class="px-3 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
+                <span>✅ Chamar Verde</span>
+              </button>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+              💡 <em>O sinal sonoro de dois tons (Ding-Dong) utiliza a Web Audio API nativa do navegador para simulação imediata.</em>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-2">
+            <span class="font-bold text-slate-300">Novo Esquema de Cores Atendimento:</span>
+            <ul class="space-y-1 text-slate-400 text-[11px]">
+              <li>• <strong>Vermelho (Emergência):</strong> Vermelho carmesim profundo contrastante (#dc2626).</li>
+              <li>• <strong>Laranja (Muito Urgente):</strong> Laranja queimado vibrante (#ea580c).</li>
+              <li>• <strong>Amarelo (Urgente):</strong> Fundo âmbar de alta luminância (#fde047) com tipografia <strong>preta/castanho escuro (#451a03)</strong> para máxima legibilidade clínica.</li>
+              <li>• <strong>Verde & Azul:</strong> Verde esmeralda (#10b981) e azul royal (#3b82f6).</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2. TAB: PEP (PRONTUÁRIO ELETRÔNICO DO PACIENTE) -->
+    <div id="content-pep" class="tab-content hidden space-y-6">
+      
+      <!-- MODAL SIMULATOR FRAME -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+        
+        <!-- HEADER CLÍNICO SLATE ESCURO -->
+        <div class="bg-slate-900 p-4 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-blue-900/40 text-blue-400 rounded-xl border border-blue-800/50">
+              🩺
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-lg font-bold text-white">PEP • Prontuário Eletrônico do Paciente</h2>
+                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">FAA #1042</span>
+              </div>
+              <div class="text-xs text-slate-400 flex flex-wrap gap-x-4 gap-y-0.5">
+                <span><strong>Paciente:</strong> Maria da Silva Santos (48 anos, Feminino)</span>
+                <span><strong>CPF:</strong> 123.456.789-00</span>
+                <span><strong>CNS:</strong> 7000.1234.5678.9012</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-300 text-amber-950 border border-amber-500">
+              ● Amarelo • Urgente (60 min)
+            </span>
+          </div>
+        </div>
+
+        <!-- HUD DE SINAIS VITAIS CLÍNICO COM CORES REFINADAS -->
+        <div class="bg-slate-950/90 p-4 border-b border-slate-800/80">
+          <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
+            <span>SINAIS VITAIS COLETADOS NA TRIAGEM</span>
+            <span class="text-emerald-400 text-[10px]">Aferido há 12 min</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">PA (Pressão Arterial)</span>
+              <span class="text-sm font-bold text-emerald-400">130/85 mmHg</span>
+              <span class="text-[9px] text-slate-500 block">Normotenso</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">FC (Frequência Cardíaca)</span>
+              <span class="text-sm font-bold text-rose-400">82 bpm</span>
+              <span class="text-[9px] text-slate-500 block">Eucárdico</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">FR (Frequência Resp.)</span>
+              <span class="text-sm font-bold text-cyan-400">18 rpm</span>
+              <span class="text-[9px] text-slate-500 block">Eupneico</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">Temperatura</span>
+              <span class="text-sm font-bold text-amber-300">38.2 °C</span>
+              <span class="text-[9px] text-amber-400 block">Estado Febril</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">Saturação SpO2</span>
+              <span class="text-sm font-bold text-sky-400">97 %</span>
+              <span class="text-[9px] text-slate-500 block">Ar Ambiente</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">Glicemia Capilar</span>
+              <span class="text-sm font-bold text-purple-400">98 mg/dL</span>
+              <span class="text-[9px] text-slate-500 block">Em jejum</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block font-semibold">Escala da Dor</span>
+              <span class="text-sm font-bold text-orange-400">6 / 10</span>
+              <span class="text-[9px] text-orange-300 block">Dor Moderada</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKSPACE PEP (SOAP COM BORDAS COLORIDAS) -->
+        <div class="p-5 space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- SUBJETIVO (Borda Azul Céu) -->
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-sky-500 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase text-sky-400 tracking-wider">S • Subjetivo (Queixa & História)</span>
+                <span class="text-[10px] text-slate-400">Relato do Cidadão</span>
+              </div>
+              <textarea rows="3" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-sky-500" placeholder="História da moléstia atual, queixas referidas pelo paciente...">Paciente refere dor lombar bilateral de início súbito há 2 dias, associada a febre aferida em domicílio e náuseas discretas. Nega disúria franca.</textarea>
+            </div>
+
+            <!-- OBJETIVO (Borda Verde Esmeralda) -->
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-emerald-500 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">O • Objetivo (Exame Físico)</span>
+                <span class="text-[10px] text-slate-400">Achados Clínicos</span>
+              </div>
+              <textarea rows="3" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-emerald-500" placeholder="Exame físico, ausculta, palpação, achados objetivos...">BEG, lúcida, orientada. Murmúrio vesicular presente bilateralmente sem ruídos adventícios. Abdome flácido, Giordano positivo à direita. Sem sinais de peritonite.</textarea>
+            </div>
+
+            <!-- AVALIAÇÃO (Borda Âmbar) -->
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-amber-500 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase text-amber-400 tracking-wider">A • Avaliação & Diagnósticos CID-10</span>
+                <span class="text-[10px] text-slate-400">Hipótese Diagnóstica</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5 mb-2">
+                <span class="text-[11px] px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 font-semibold flex items-center gap-1">
+                  N10 - Pielonefrite aguda ✕
+                </span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                  + Adicionar CID-10
+                </span>
+              </div>
+              <textarea rows="2" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-amber-500" placeholder="Raciocínio clínico...">Quadro compatível com infecção do trato urinário alto (Pielonefrite não complicada). Sem critérios de sepse no momento.</textarea>
+            </div>
+
+            <!-- PLANO (Borda Índigo) -->
+            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-indigo-500 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase text-indigo-400 tracking-wider">P • Plano Terapêutico & Conduta</span>
+                <span class="text-[10px] text-slate-400">Encaminhamento / Prescrição</span>
+              </div>
+              <textarea rows="3" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-indigo-500" placeholder="Prescrições, orientações, solicitação de exames...">1. Coleta de Urina I + Urocultura na UBS;
+2. Prescrição de Ciprofloxacino 500mg 12/12h por 7 dias;
+3. Dipirona 500mg SN se dor ou febre;
+4. Retorno em 48h ou imediatamente se piora.</textarea>
+            </div>
+
+          </div>
+
+          <!-- FOOTER DE FINALIZAÇÃO & ASSINATURA DIGITAL -->
+          <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+              <span class="p-1 rounded bg-emerald-500/20 text-emerald-400">🛡️</span>
+              <span><strong>Assinatura Digital:</strong> Dr. Rodrigo Santana • CRM/SP 189420 (Certificado ICP-Brasil)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
+                Salvar Rascunho
+              </button>
+              <button onclick="alert('Consulta finalizada com sucesso no PEP! Evolução clínica salva e assinada digitalmente.')" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-blue-600/20">
+                <span>Finalizar Atendimento & Assinar PEP</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. TAB: PROTOCOLO MANCHESTER DE TRIAGEM -->
+    <div id="content-manchester" class="tab-content hidden space-y-6">
+      <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-white">Classificação de Risco no Protocolo Manchester</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Novo padrão de cores com alta legibilidade clínica. Cada nível possui tempo alvo estrito de espera para o atendimento médico na rede municipal de urgência e UBS.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+          
+          <div class="p-4 rounded-xl bg-red-950/40 border border-red-700/60 flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-red-600 text-white">
+                VERMELHO
+              </span>
+              <h3 class="text-base font-bold text-red-200 mt-2">Emergência</h3>
+              <p class="text-xs text-red-300/80 mt-1">Risco iminente de morte. Parada cardiorrespiratória, politrauma grave, choque.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-red-800/60 font-mono text-sm font-black text-red-400">
+              0 min (Imediato)
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-orange-950/40 border border-orange-700/60 flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-orange-600 text-white">
+                LARANJA
+              </span>
+              <h3 class="text-base font-bold text-orange-200 mt-2">Muito Urgente</h3>
+              <p class="text-xs text-orange-300/80 mt-1">Risco grave. Dor torácica severa, crise convulsiva recente, alteração aguda de consciência.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-orange-800/60 font-mono text-sm font-black text-orange-400">
+              10 minutos
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-600/70 flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-300 text-amber-950 border border-amber-500">
+                AMARELO
+              </span>
+              <h3 class="text-base font-bold text-amber-200 mt-2">Urgente</h3>
+              <p class="text-xs text-amber-300/80 mt-1">Potencial gravidade. Febre alta sem resposta, vômitos incoercíveis, dor moderada a severa.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-amber-800/60 font-mono text-sm font-black text-amber-300">
+              60 minutos
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-700/60 flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-600 text-white">
+                VERDE
+              </span>
+              <h3 class="text-base font-bold text-emerald-200 mt-2">Pouco Urgente</h3>
+              <p class="text-xs text-emerald-300/80 mt-1">Condição estável. Sintomas leves, ferimentos superficiais, resfriado comum, queixas subagudas.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-emerald-800/60 font-mono text-sm font-black text-emerald-400">
+              120 minutos
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-blue-950/40 border border-blue-700/60 flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-600 text-white">
+                AZUL
+              </span>
+              <h3 class="text-base font-bold text-blue-200 mt-2">Não Urgente</h3>
+              <p class="text-xs text-blue-300/80 mt-1">Queixas crônicas, troca de receita, atestados, orientações preventivas ou vacinação.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-blue-800/60 font-mono text-sm font-black text-blue-400">
+              240 minutos
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4. TAB: ACOLHIMENTO & FAA -->
+    <div id="content-acolhimento" class="tab-content hidden space-y-6">
+      <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl max-w-3xl mx-auto space-y-5">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-sky-900/40 text-sky-400 rounded-xl border border-sky-800/50">
+            📋
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Recepção & Acolhimento (Abertura de FAA)</h2>
+            <p class="text-xs text-slate-400">Cadastro de demanda espontânea e emissão da senha para o totem da recepção.</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+            <span class="text-xs font-semibold text-slate-300">Cidadão Selecionado:</span>
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="font-bold text-white text-sm">MARIA DA SILVA SANTOS</div>
+                <div class="text-xs text-slate-400">CPF: 123.456.789-00 • CNS: 7000.1234.5678.9012</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">Cadastrado</span>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-300 block mb-2">Modalidade do Atendimento:</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div class="p-3 rounded-lg border border-l-4 border-l-sky-500 bg-slate-900 border-slate-800 text-xs">
+                <span class="font-bold text-white block">Demanda Espontânea</span>
+                <span class="text-[11px] text-slate-400">Queixa aguda ou consulta do dia</span>
+              </div>
+              <div class="p-3 rounded-lg border border-l-4 border-l-rose-600 bg-slate-900 border-slate-800 text-xs">
+                <span class="font-bold text-white block">Urgência / Emergência</span>
+                <span class="text-[11px] text-slate-400">Atendimento prioritário imediato</span>
+              </div>
+              <div class="p-3 rounded-lg border border-l-4 border-l-emerald-500 bg-slate-900 border-slate-800 text-xs">
+                <span class="font-bold text-white block">Consulta Agendada</span>
+                <span class="text-[11px] text-slate-400">Retorno ou agendamento prévio</span>
+              </div>
+              <div class="p-3 rounded-lg border border-l-4 border-l-amber-500 bg-slate-900 border-slate-800 text-xs">
+                <span class="font-bold text-white block">Procedimento / Curativo</span>
+                <span class="text-[11px] text-slate-400">Injeção, curativo, sutura</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs font-semibold text-slate-300 block mb-1">Queixa Principal Relatada:</label>
+            <textarea rows="2" class="w-full text-xs p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200" readonly>Febre há 2 dias, tosse produtiva e dor de cabeça intensa.</textarea>
+          </div>
+
+          <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-800 text-xs text-amber-200">
+            🔒 <strong>Atendimento Sigiloso / Restrito:</strong> Suporte a proteção de identidade em casos de notificação compulsória restrita no painel de chamada.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. TAB: MÓDULOS & ARQUITETURA -->
+    <div id="content-modulos" class="tab-content hidden space-y-6">
+      <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-white">Status de Implementação & Roadmap do Projeto</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Refatoração do ecossistema municipal desktop legado (Delphi) para arquitetura web unificada.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">Etapa 00: Setup & Multi-tenant Foundation</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
+            </div>
+            <p class="text-xs text-slate-400">AdonisJS 6, PostgreSQL/SQLite, Inertia React 19, TypeScript estrito, Shadcn UI, Design System clínico.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">Etapa 01: Cidadãos, Famílias & Prontuário Único</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
+            </div>
+            <p class="text-xs text-slate-400">Cadastro unificado de munícipes com CPF, CNS, NIS, georreferenciamento e árvore de parentesco familiar.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">Etapa 02: Autenticação, RBAC & Território</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
+            </div>
+            <p class="text-xs text-slate-400">Perfis de acesso granulares (Médico, Enfermeiro, Atendente, Assistente Social), controle por Unidade de Saúde (CNES).</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-white">Etapa 03: CadÚnico & Assistência Social</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
+            </div>
+            <p class="text-xs text-slate-400">Ficha social, composição de renda per capita, benefícios continuados (BPC, Bolsa Família) e intervenções sociofamiliares.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/40 space-y-2 shadow-lg shadow-cyan-950/30">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-cyan-300">Etapa 04: Atendimento UBS, Triagem & PEP</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">CONCLUÍDO</span>
+            </div>
+            <p class="text-xs text-slate-400">Ficha de Atendimento Ambulatorial (FAA), Protocolo Manchester com tempos-alvo, Totem de chamada, Prontuário Eletrônico SOAP e CID-10.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2 opacity-75">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-sm text-slate-300">Etapas 05 a 08: Farmácia, Agendamentos & e-SUS</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-700 text-slate-300">PLANEJADO</span>
+            </div>
+            <p class="text-xs text-slate-400">Dispensação de medicamentos com controle de lote/validade, agenda médica com regulação e exportação XML/Thrift e-SUS APS.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        © 2026 <strong>Prefeitura Municipal</strong> • Sistema de Gestão em Saúde Pública e Assistência Social.
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/RodrigoS1989/prefeitura-web" class="hover:text-cyan-400 transition">Repositório GitHub</a>
+        <span>•</span>
+        <span>Hospedado no GitHub Pages</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT INTERATIVO -->
+  <script>
+    // Audio Context para tocar o sino Ding-Dong de chamada
+    function playChime() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        // Tom 1
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
+        gain1.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime + 0.8);
+
+        // Tom 2
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(523.25, ctx.currentTime + 0.4); // C5
+        gain2.gain.setValueAtTime(0.3, ctx.currentTime + 0.4);
+        gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start(ctx.currentTime + 0.4);
+        osc2.stop(ctx.currentTime + 1.4);
+      } catch (e) {
+        console.warn('AudioContext not allowed or not supported yet');
+      }
+    }
+
+    // Gerador de senhas e chamada
+    const nomes = [
+      'MARIA DA SILVA SANTOS',
+      'JOÃO PEDRO DE SOUZA',
+      'ANA CLARA FERREIRA',
+      'CARLOS EDUARDO LIMA',
+      'BEATRIZ GONÇALVES DIAS',
+      'LUCAS MENDES RIBEIRO',
+      'JULIA ALMEIDA COSTA',
+      'PAULO ROBERTO NOGUEIRA'
+    ];
+
+    let contadorSenha = 43;
+
+    function chamarProxima(cor) {
+      playChime();
+      const numSenha = 'C-0' + contadorSenha++;
+      const nomeSorteado = nomes[Math.floor(Math.random() * nomes.length)];
+      const consultorioSel = document.getElementById('ctrl-consultorio').value;
+
+      const tvSenha = document.getElementById('tv-senha');
+      const tvPaciente = document.getElementById('tv-paciente');
+      const tvConsultorio = document.getElementById('tv-consultorio');
+      const tvBadge = document.getElementById('tv-badge');
+
+      // Atualiza valores
+      tvSenha.innerText = numSenha;
+      tvPaciente.innerText = nomeSorteado;
+      tvConsultorio.innerText = consultorioSel;
+
+      // Configuração de Badge de Cor com alto contraste
+      if (cor === 'vermelho') {
+        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-red-600 text-white shadow-md';
+        tvBadge.innerText = '● VERMELHO • EMERGÊNCIA (0 MIN)';
+      } else if (cor === 'laranja') {
+        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-orange-600 text-white shadow-md';
+        tvBadge.innerText = '● LARANJA • MUITO URGENTE (10 MIN)';
+      } else if (cor === 'amarelo') {
+        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-amber-300 text-amber-950 border border-amber-500 shadow-md';
+        tvBadge.innerText = '● AMARELO • URGENTE (60 MIN)';
+      } else {
+        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-600 text-white shadow-md';
+        tvBadge.innerText = '● VERDE • POUCO URGENTE (120 MIN)';
+      }
+
+      // Pisca a tela
+      tvSenha.classList.add('scale-110', 'text-white');
+      setTimeout(() => {
+        tvSenha.classList.remove('scale-110', 'text-white');
+      }, 500);
+    }
+
+    // Relógio em tempo real
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').innerText = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Navegação de abas
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active', 'border-cyan-500', 'text-cyan-400');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+
+      const targetContent = document.getElementById('content-' + tabId);
+      const targetBtn = document.getElementById('tab-' + tabId);
+
+      if (targetContent) targetContent.classList.remove('hidden');
+      if (targetBtn) {
+        targetBtn.classList.add('active', 'border-cyan-500', 'text-cyan-400');
+        targetBtn.classList.remove('border-transparent', 'text-slate-400');
+      }
+    }
+  </script>
+</body>
+</html>

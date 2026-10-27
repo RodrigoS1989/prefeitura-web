@@ -139,32 +139,65 @@ export default function AtendimentosIndexPage({
   const getManchesterBadge = (cor: string) => {
     switch (cor) {
       case 'VERMELHO':
-        return <Badge className="bg-red-600 text-white hover:bg-red-700">Vermelho (0m)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-600 text-white shadow-sm ring-1 ring-rose-700/50">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            Vermelho (0m)
+          </span>
+        )
       case 'LARANJA':
-        return <Badge className="bg-orange-500 text-white hover:bg-orange-600">Laranja (10m)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-500 text-white shadow-sm ring-1 ring-orange-600/50">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            Laranja (10m)
+          </span>
+        )
       case 'AMARELO':
-        return <Badge className="bg-amber-500 text-white hover:bg-amber-600">Amarelo (60m)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-black bg-amber-300 text-amber-950 border border-amber-500 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-amber-950" />
+            Amarelo (60m)
+          </span>
+        )
       case 'AZUL':
-        return <Badge className="bg-blue-600 text-white hover:bg-blue-700">Azul (240m)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-600 text-white shadow-sm ring-1 ring-sky-700/50">
+            <span className="w-2 h-2 rounded-full bg-white" />
+            Azul (240m)
+          </span>
+        )
       default:
-        return <Badge className="bg-emerald-600 text-white hover:bg-emerald-700">Verde (120m)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-700/50">
+            <span className="w-2 h-2 rounded-full bg-white" />
+            Verde (120m)
+          </span>
+        )
     }
   }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'AGUARDANDO_TRIAGEM':
-        return <Badge variant="outline" className="text-yellow-600 border-yellow-300">Aguardando Triagem</Badge>
+        return (
+          <Badge variant="outline" className="text-amber-700 dark:text-amber-300 border-amber-400 bg-amber-50 dark:bg-amber-950/30 font-medium">
+            Aguardando Triagem
+          </Badge>
+        )
       case 'EM_TRIAGEM':
-        return <Badge className="bg-yellow-500 text-white">Em Triagem</Badge>
+        return <Badge className="bg-amber-500 text-amber-950 font-bold">Em Triagem</Badge>
       case 'AGUARDANDO_ATENDIMENTO':
-        return <Badge variant="outline" className="text-blue-600 border-blue-300">Aguardando Consulta</Badge>
+        return (
+          <Badge variant="outline" className="text-sky-700 dark:text-sky-300 border-sky-400 bg-sky-50 dark:bg-sky-950/30 font-medium">
+            Aguardando Consulta
+          </Badge>
+        )
       case 'EM_ATENDIMENTO':
-        return <Badge className="bg-blue-600 text-white">Em Atendimento</Badge>
+        return <Badge className="bg-sky-600 text-white font-bold animate-pulse">Em Atendimento</Badge>
       case 'EM_OBSERVACAO':
-        return <Badge className="bg-purple-600 text-white">Em Observação</Badge>
+        return <Badge className="bg-purple-600 text-white font-bold">Em Observação</Badge>
       case 'FINALIZADO':
-        return <Badge className="bg-emerald-600 text-white">Finalizado</Badge>
+        return <Badge className="bg-emerald-600 text-white font-medium">Finalizado</Badge>
       case 'CANCELADO':
         return <Badge variant="destructive">Cancelado</Badge>
       default:
@@ -219,21 +252,25 @@ export default function AtendimentosIndexPage({
 
         {/* Totem / Monitor de Chamada Eletrônica SUS */}
         {emAtendimentoAgora && (
-          <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-4 rounded-xl shadow-md border border-blue-800 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-blue-500/20 rounded-xl animate-pulse text-blue-300">
-                <Volume2 className="h-6 w-6" />
+          <div className="bg-slate-950 text-white p-5 rounded-2xl shadow-xl shadow-cyan-950/20 border-2 border-cyan-500/40 flex flex-wrap items-center justify-between gap-4 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="p-3.5 bg-cyan-500/10 border border-cyan-500/30 rounded-2xl animate-pulse text-cyan-400">
+                <Volume2 className="h-7 w-7" />
               </div>
               <div>
-                <div className="text-[11px] uppercase tracking-wider text-blue-300 font-bold flex items-center gap-1.5">
-                  <Radio className="h-3.5 w-3.5 text-red-400" />
-                  Painel de Chamada em Tempo Real
+                <div className="text-[11px] uppercase tracking-wider text-cyan-400 font-bold flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping inline-block" />
+                  Painel de Chamada Ambulatorial em Tempo Real
                 </div>
-                <div className="text-2xl font-black font-mono tracking-tight text-white">
-                  SENHA {emAtendimentoAgora.senhaPainel}
+                <div className="text-3xl font-black font-mono tracking-tight text-white flex items-center gap-3 mt-1">
+                  <span className="text-cyan-400">SENHA:</span>
+                  <span className="px-3 py-0.5 bg-cyan-950/80 border border-cyan-400/40 rounded-lg text-cyan-200">
+                    {emAtendimentoAgora.senhaPainel}
+                  </span>
                 </div>
-                <div className="text-xs text-blue-200">
-                  Paciente: <strong>{emAtendimentoAgora.cidadao.nomeCompleto}</strong> • Encaminhado ao Consultório
+                <div className="text-xs text-slate-300 mt-1">
+                  Paciente: <strong className="text-white">{emAtendimentoAgora.cidadao.nomeCompleto}</strong> • Dirija-se ao Consultório Médico
                 </div>
               </div>
             </div>
@@ -241,7 +278,7 @@ export default function AtendimentosIndexPage({
             <Button
               size="sm"
               onClick={() => setPepAtendimentoId(emAtendimentoAgora.id)}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-semibold flex items-center gap-1.5"
+              className="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-4 py-2 flex items-center gap-2 shadow-lg shadow-cyan-600/30 relative z-10"
             >
               <Stethoscope className="h-4 w-4" />
               Abrir Consultório / PEP
@@ -251,46 +288,46 @@ export default function AtendimentosIndexPage({
 
         {/* Cards de Métricas da Unidade */}
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-          <Card className="border-l-4 border-l-blue-600">
+          <Card className="border-l-4 border-l-sky-500 bg-sky-50/20 dark:bg-sky-950/10">
             <CardContent className="p-3 text-center">
-              <div className="text-xs text-gray-500">Total Hoje</div>
-              <div className="text-2xl font-bold font-mono text-gray-900 dark:text-white">
+              <div className="text-xs font-semibold text-sky-800 dark:text-sky-300">Total Hoje</div>
+              <div className="text-2xl font-black font-mono text-slate-900 dark:text-white">
                 {stats.totalHoje}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-yellow-500">
+          <Card className="border-l-4 border-l-amber-500 bg-amber-50/20 dark:bg-amber-950/10">
             <CardContent className="p-3 text-center">
-              <div className="text-xs text-gray-500">Aguardando Triagem</div>
-              <div className="text-2xl font-bold font-mono text-yellow-600">
+              <div className="text-xs font-semibold text-amber-800 dark:text-amber-300">Aguardando Triagem</div>
+              <div className="text-2xl font-black font-mono text-amber-600 dark:text-amber-400">
                 {stats.aguardandoTriagem}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-indigo-600">
+          <Card className="border-l-4 border-l-indigo-500 bg-indigo-50/20 dark:bg-indigo-950/10">
             <CardContent className="p-3 text-center">
-              <div className="text-xs text-gray-500">Aguardando Consulta</div>
-              <div className="text-2xl font-bold font-mono text-indigo-600">
+              <div className="text-xs font-semibold text-indigo-800 dark:text-indigo-300">Aguardando Consulta</div>
+              <div className="text-2xl font-black font-mono text-indigo-600 dark:text-indigo-400">
                 {stats.aguardandoAtendimento}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-blue-500">
+          <Card className="border-l-4 border-l-cyan-500 bg-cyan-50/20 dark:bg-cyan-950/10">
             <CardContent className="p-3 text-center">
-              <div className="text-xs text-gray-500">Em Consulta Médica</div>
-              <div className="text-2xl font-bold font-mono text-blue-600">
+              <div className="text-xs font-semibold text-cyan-800 dark:text-cyan-300">Em Consulta Médica</div>
+              <div className="text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400">
                 {stats.emAtendimento}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-emerald-600 col-span-2 sm:col-span-1">
+          <Card className="border-l-4 border-l-emerald-500 bg-emerald-50/20 dark:bg-emerald-950/10 col-span-2 sm:col-span-1">
             <CardContent className="p-3 text-center">
-              <div className="text-xs text-gray-500">Finalizados Hoje</div>
-              <div className="text-2xl font-bold font-mono text-emerald-600">
+              <div className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">Finalizados Hoje</div>
+              <div className="text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400">
                 {stats.finalizados}
               </div>
             </CardContent>
@@ -298,27 +335,32 @@ export default function AtendimentosIndexPage({
         </div>
 
         {/* Barra de Distribuição Manchester */}
-        <div className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <span className="font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
+        <div className="bg-white dark:bg-gray-800 p-3.5 rounded-xl border border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <span className="font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2">
             <BadgeAlert className="h-4 w-4 text-gray-500" />
             Classificação Manchester na Fila:
           </span>
           <div className="flex flex-wrap gap-2">
-            <Badge className="bg-red-600 text-white font-mono">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-600 text-white font-mono shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-white" />
               Vermelho: {stats.manchester.vermelho}
-            </Badge>
-            <Badge className="bg-orange-500 text-white font-mono">
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-500 text-white font-mono shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-white" />
               Laranja: {stats.manchester.laranja}
-            </Badge>
-            <Badge className="bg-amber-500 text-white font-mono">
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-black bg-amber-300 text-amber-950 border border-amber-500 font-mono shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-amber-950" />
               Amarelo: {stats.manchester.amarelo}
-            </Badge>
-            <Badge className="bg-emerald-600 text-white font-mono">
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white font-mono shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-white" />
               Verde: {stats.manchester.verde}
-            </Badge>
-            <Badge className="bg-blue-600 text-white font-mono">
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-600 text-white font-mono shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-white" />
               Azul: {stats.manchester.azul}
-            </Badge>
+            </span>
           </div>
         </div>
 

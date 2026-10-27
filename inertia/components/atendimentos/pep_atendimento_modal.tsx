@@ -425,47 +425,72 @@ export function PepAtendimentoModal({
   const getManchesterBadge = (cor?: string) => {
     switch (cor) {
       case 'VERMELHO':
-        return <Badge className="bg-red-600 text-white hover:bg-red-700">Emergência (Vermelho)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-600 text-white shadow-sm ring-1 ring-rose-700/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            Emergência (Vermelho)
+          </span>
+        )
       case 'LARANJA':
-        return <Badge className="bg-orange-500 text-white hover:bg-orange-600">Muito Urgente (Laranja)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-500 text-white shadow-sm ring-1 ring-orange-600/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            Muito Urgente (Laranja)
+          </span>
+        )
       case 'AMARELO':
-        return <Badge className="bg-amber-500 text-white hover:bg-amber-600">Urgente (Amarelo)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-300 text-amber-950 border border-amber-500 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-950" />
+            Urgente (Amarelo)
+          </span>
+        )
       case 'AZUL':
-        return <Badge className="bg-blue-600 text-white hover:bg-blue-700">Não Urgente (Azul)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-600 text-white shadow-sm ring-1 ring-sky-700/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            Não Urgente (Azul)
+          </span>
+        )
       default:
-        return <Badge className="bg-emerald-600 text-white hover:bg-emerald-700">Pouco Urgente (Verde)</Badge>
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white shadow-sm ring-1 ring-emerald-700/50">
+            <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            Pouco Urgente (Verde)
+          </span>
+        )
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl max-h-[94vh] flex flex-col p-0 overflow-hidden">
+      <DialogContent className="max-w-6xl max-h-[94vh] flex flex-col p-0 overflow-hidden bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
         {/* Header do Prontuário */}
-        <div className="p-4 sm:p-5 bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900 text-white shrink-0">
+        <div className="p-4 sm:p-5 bg-slate-900 border-b border-slate-800 text-slate-100 shrink-0">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-white/10 backdrop-blur rounded-xl text-white">
+              <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl text-cyan-400">
                 <Stethoscope className="h-6 w-6" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-bold tracking-tight">Prontuário Eletrônico do Paciente (PEP)</h2>
+                  <h2 className="text-xl font-bold tracking-tight text-white">Prontuário Eletrônico do Paciente (PEP)</h2>
                   {data && getManchesterBadge(data.prioridadeManchester)}
                 </div>
-                <p className="text-xs text-blue-100 flex items-center gap-2">
-                  <span>Atendimento: <strong>{data?.numeroAtendimento || 'Carregando...'}</strong></span>
+                <p className="text-xs text-slate-400 flex items-center gap-2 mt-0.5">
+                  <span>Atendimento: <strong className="text-slate-200 font-mono">{data?.numeroAtendimento || 'Carregando...'}</strong></span>
                   <span>•</span>
-                  <span>Senha: <strong>{data?.senhaPainel}</strong></span>
+                  <span>Senha: <strong className="text-cyan-300 font-mono">{data?.senhaPainel}</strong></span>
                   <span>•</span>
-                  <span>Modalidade: {data?.tipoAtendimento?.replace('_', ' ')}</span>
+                  <span>Modalidade: <span className="text-slate-200">{data?.tipoAtendimento?.replace('_', ' ')}</span></span>
                 </p>
               </div>
             </div>
 
             {data && (
               <div className="text-right">
-                <div className="text-sm font-semibold">{data.cidadao.nomeCompleto}</div>
-                <div className="text-xs text-blue-200 flex gap-2 justify-end">
+                <div className="text-sm font-bold text-white">{data.cidadao.nomeCompleto}</div>
+                <div className="text-xs text-slate-400 flex gap-2 justify-end mt-0.5 font-mono">
                   {data.cidadao.cpf && <span>CPF: {data.cidadao.cpf}</span>}
                   {data.cidadao.cns && <span>CNS: {data.cidadao.cns}</span>}
                 </div>
@@ -473,50 +498,50 @@ export function PepAtendimentoModal({
             )}
           </div>
 
-          {/* Banner de Sinais Vitais da Triagem */}
+          {/* Banner de Sinais Vitais da Triagem (HUD Clínico) */}
           {data?.sinaisVitais && (
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-7 gap-2 bg-black/20 backdrop-blur-sm p-2.5 rounded-lg text-xs">
-              <div className="text-center border-r border-white/10 last:border-none">
-                <div className="text-[10px] text-blue-200">Pressão Arterial</div>
-                <div className="font-bold font-mono">
+            <div className="mt-3 grid grid-cols-2 sm:grid-cols-7 gap-2 bg-slate-950/90 border border-slate-800 rounded-xl p-2.5 text-xs shadow-inner">
+              <div className="text-center border-r border-slate-800 last:border-none">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">PA Sist/Diast</div>
+                <div className="font-bold font-mono text-emerald-400">
                   {data.sinaisVitais.paSistolica && data.sinaisVitais.paDiastolica
                     ? `${data.sinaisVitais.paSistolica}/${data.sinaisVitais.paDiastolica} mmHg`
                     : 'Não aferida'}
                 </div>
               </div>
-              <div className="text-center border-r border-white/10 last:border-none">
-                <div className="text-[10px] text-blue-200">Freq. Cardíaca</div>
-                <div className="font-bold font-mono">
+              <div className="text-center border-r border-slate-800 last:border-none">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Freq. Cardíaca</div>
+                <div className="font-bold font-mono text-rose-400">
                   {data.sinaisVitais.frequenciaCardiaca ? `${data.sinaisVitais.frequenciaCardiaca} bpm` : '--'}
                 </div>
               </div>
-              <div className="text-center border-r border-white/10 last:border-none">
-                <div className="text-[10px] text-blue-200">Temperatura</div>
-                <div className="font-bold font-mono">
+              <div className="text-center border-r border-slate-800 last:border-none">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Temperatura</div>
+                <div className="font-bold font-mono text-amber-400">
                   {data.sinaisVitais.temperatura ? `${data.sinaisVitais.temperatura} °C` : '--'}
                 </div>
               </div>
-              <div className="text-center border-r border-white/10 last:border-none">
-                <div className="text-[10px] text-blue-200">Saturação O₂</div>
-                <div className="font-bold font-mono">
+              <div className="text-center border-r border-slate-800 last:border-none">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Saturação O₂</div>
+                <div className="font-bold font-mono text-sky-400">
                   {data.sinaisVitais.saturacaoO2 ? `${data.sinaisVitais.saturacaoO2}%` : '--'}
                 </div>
               </div>
-              <div className="text-center border-r border-white/10 last:border-none">
-                <div className="text-[10px] text-blue-200">Glicemia</div>
-                <div className="font-bold font-mono">
+              <div className="text-center border-r border-slate-800 last:border-none">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Glicemia</div>
+                <div className="font-bold font-mono text-purple-400">
                   {data.sinaisVitais.glicemiaCapilar ? `${data.sinaisVitais.glicemiaCapilar} mg/dL` : '--'}
                 </div>
               </div>
-              <div className="text-center border-r border-white/10 last:border-none">
-                <div className="text-[10px] text-blue-200">IMC</div>
-                <div className="font-bold font-mono">
+              <div className="text-center border-r border-slate-800 last:border-none">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">IMC</div>
+                <div className="font-bold font-mono text-blue-300">
                   {data.sinaisVitais.imc ? `${data.sinaisVitais.imc} kg/m²` : '--'}
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-[10px] text-blue-200">Escala de Dor</div>
-                <div className="font-bold font-mono">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Escala de Dor</div>
+                <div className="font-bold font-mono text-orange-400">
                   {data.sinaisVitais.escalaDor !== null && data.sinaisVitais.escalaDor !== undefined
                     ? `${data.sinaisVitais.escalaDor} / 10`
                     : '0 / 10'}
@@ -615,9 +640,9 @@ export function PepAtendimentoModal({
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* S - Subjetivo */}
-                    <div className="space-y-1.5 p-3 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50/20 dark:bg-blue-950/20">
-                      <label className="text-xs font-bold text-blue-900 dark:text-blue-300 flex items-center gap-1">
-                        <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px]">
+                    <div className="space-y-1.5 p-3.5 rounded-xl border-l-4 border-l-sky-500 border border-slate-200 dark:border-slate-800 bg-sky-50/40 dark:bg-sky-950/20 shadow-sm">
+                      <label className="text-xs font-bold text-sky-900 dark:text-sky-300 flex items-center gap-1.5">
+                        <span className="w-5 h-5 rounded-full bg-sky-600 text-white flex items-center justify-center text-[10px] font-black">
                           S
                         </span>
                         Subjetivo (Queixa, História da Doença Atual - HMA)
@@ -627,15 +652,15 @@ export function PepAtendimentoModal({
                         value={subjetivo}
                         onChange={(e) => setSubjetivo(e.target.value)}
                         placeholder="Relato do paciente, início dos sintomas, evolução temporal, medicações em uso..."
-                        className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2.5 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-sky-500"
                         required
                       />
                     </div>
 
                     {/* O - Objetivo */}
-                    <div className="space-y-1.5 p-3 rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50/20 dark:bg-emerald-950/20">
-                      <label className="text-xs font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-1">
-                        <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]">
+                    <div className="space-y-1.5 p-3.5 rounded-xl border-l-4 border-l-emerald-500 border border-slate-200 dark:border-slate-800 bg-emerald-50/40 dark:bg-emerald-950/20 shadow-sm">
+                      <label className="text-xs font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-black">
                           O
                         </span>
                         Objetivo (Exame Físico Geral e Específico)
@@ -645,15 +670,15 @@ export function PepAtendimentoModal({
                         value={objetivo}
                         onChange={(e) => setObjetivo(e.target.value)}
                         placeholder="Aparência, ausculta pulmonar e cardíaca, palpação abdominal, oroscopia, otoscopia..."
-                        className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs focus:ring-2 focus:ring-emerald-500"
+                        className="w-full p-2.5 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-emerald-500"
                         required
                       />
                     </div>
 
                     {/* A - Avaliação */}
-                    <div className="space-y-1.5 p-3 rounded-lg border border-amber-200 dark:border-amber-900 bg-amber-50/20 dark:bg-amber-950/20">
-                      <label className="text-xs font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1">
-                        <span className="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-[10px]">
+                    <div className="space-y-1.5 p-3.5 rounded-xl border-l-4 border-l-amber-500 border border-slate-200 dark:border-slate-800 bg-amber-50/40 dark:bg-amber-950/20 shadow-sm">
+                      <label className="text-xs font-bold text-amber-950 dark:text-amber-300 flex items-center gap-1.5">
+                        <span className="w-5 h-5 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-[10px] font-black">
                           A
                         </span>
                         Avaliação (Hipóteses Diagnósticas / Raciocínio Clínico)
@@ -663,22 +688,22 @@ export function PepAtendimentoModal({
                         value={avaliacao}
                         onChange={(e) => setAvaliacao(e.target.value)}
                         placeholder="Raciocínio clínico e diagnósticos sindrômicos formulados..."
-                        className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs focus:ring-2 focus:ring-amber-500"
+                        className="w-full p-2.5 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-amber-500"
                         required
                       />
 
                       <div className="grid grid-cols-3 gap-2 pt-1">
                         <div>
-                          <label className="text-[10px] text-gray-500">CID-10 Código</label>
+                          <label className="text-[10px] font-semibold text-slate-500">CID-10 Código</label>
                           <Input
                             placeholder="Ex: J06.9"
                             value={cid10Codigo}
                             onChange={(e) => setCid10Codigo(e.target.value)}
-                            className="h-8 text-xs font-mono"
+                            className="h-8 text-xs font-mono font-bold"
                           />
                         </div>
                         <div className="col-span-2">
-                          <label className="text-[10px] text-gray-500">Descrição do Diagnóstico</label>
+                          <label className="text-[10px] font-semibold text-slate-500">Descrição do Diagnóstico</label>
                           <Input
                             placeholder="Infecção aguda das vias aéreas superiores"
                             value={cid10Descricao}
@@ -690,9 +715,9 @@ export function PepAtendimentoModal({
                     </div>
 
                     {/* P - Plano */}
-                    <div className="space-y-1.5 p-3 rounded-lg border border-purple-200 dark:border-purple-900 bg-purple-50/20 dark:bg-purple-950/20">
-                      <label className="text-xs font-bold text-purple-900 dark:text-purple-300 flex items-center gap-1">
-                        <span className="w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px]">
+                    <div className="space-y-1.5 p-3.5 rounded-xl border-l-4 border-l-indigo-500 border border-slate-200 dark:border-slate-800 bg-indigo-50/40 dark:bg-indigo-950/20 shadow-sm">
+                      <label className="text-xs font-bold text-indigo-900 dark:text-indigo-300 flex items-center gap-1.5">
+                        <span className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px] font-black">
                           P
                         </span>
                         Plano de Conduta (Terapêutica, Orientações e Retorno)
@@ -702,7 +727,7 @@ export function PepAtendimentoModal({
                         value={planoConduta}
                         onChange={(e) => setPlanoConduta(e.target.value)}
                         placeholder="Orientações gerais, hidratação, sinais de alarme para retorno imediato..."
-                        className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-xs focus:ring-2 focus:ring-purple-500"
+                        className="w-full p-2.5 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:ring-2 focus:ring-indigo-500"
                         required
                       />
                     </div>

@@ -286,23 +286,23 @@ export function AcolhimentoModal({
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {[
-                { id: 'DEMANDA_ESPONTANEA', label: 'Demanda Espontânea', desc: 'Queixa aguda ou consulta do dia' },
-                { id: 'URGENCIA_EMERGENCIA', label: 'Urgência / Emergência', desc: 'Atendimento prioritário imediato' },
-                { id: 'CONSULTA_AGENDADA', label: 'Consulta Agendada', desc: 'Retorno ou agendamento prévio' },
-                { id: 'PROCEDIMENTO_AMBULATORIAL', label: 'Procedimento / Curativo', desc: 'Injeção, curativo, sutura' },
-                { id: 'VACINACAO', label: 'Vacinação / Imunização', desc: 'Sala de vacinas da UBS' },
+                { id: 'DEMANDA_ESPONTANEA', label: 'Demanda Espontânea', desc: 'Queixa aguda ou consulta do dia', border: 'border-l-4 border-l-sky-500' },
+                { id: 'URGENCIA_EMERGENCIA', label: 'Urgência / Emergência', desc: 'Atendimento prioritário imediato', border: 'border-l-4 border-l-rose-600' },
+                { id: 'CONSULTA_AGENDADA', label: 'Consulta Agendada', desc: 'Retorno ou agendamento prévio', border: 'border-l-4 border-l-emerald-500' },
+                { id: 'PROCEDIMENTO_AMBULATORIAL', label: 'Procedimento / Curativo', desc: 'Injeção, curativo, sutura', border: 'border-l-4 border-l-amber-500' },
+                { id: 'VACINACAO', label: 'Vacinação / Imunização', desc: 'Sala de vacinas da UBS', border: 'border-l-4 border-l-purple-500' },
               ].map((tipo) => (
                 <div
                   key={tipo.id}
                   onClick={() => setTipoAtendimento(tipo.id)}
-                  className={`p-3 rounded-lg border cursor-pointer transition-all ${
+                  className={`p-3 rounded-lg border cursor-pointer transition-all ${tipo.border} ${
                     tipoAtendimento === tipo.id
-                      ? 'border-blue-600 bg-blue-50/70 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 ring-1 ring-blue-600'
-                      : 'border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/60'
+                      ? 'border-blue-600 bg-blue-50/70 dark:bg-blue-950/40 text-blue-950 dark:text-blue-100 ring-1 ring-blue-600 shadow-sm'
+                      : 'border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/60 bg-white dark:bg-gray-800'
                   }`}
                 >
                   <div className="font-semibold text-xs flex items-center justify-between">
-                    <span>{tipo.label}</span>
+                    <span className="text-gray-900 dark:text-gray-100">{tipo.label}</span>
                     {tipoAtendimento === tipo.id && <Check className="h-3.5 w-3.5 text-blue-600" />}
                   </div>
                   <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">{tipo.desc}</p>

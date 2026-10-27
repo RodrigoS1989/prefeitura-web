@@ -42,7 +42,26 @@ Fiel à ergonomia e agilidade operacional do sistema desktop original Delphi (`S
 | **E10** | Frota Sanitária & TFD | 📋 Planejada | Gestão de veículos, ambulâncias, viagens TFD e controle de abastecimento |
 | **E11** | Cadastros de Apoio & Auditoria | 📋 Planejada | Trilha de auditoria LGPD, relatórios gerenciais e segurança |
 
-> 📁 Todos os planos executivos detalhados estão disponíveis no diretório [`docs/planos_etapas/`](docs/planos_etapas/).
+## 🌐 Demonstração & Acesso Web (GitHub Pages)
+
+O projeto conta com um ambiente de demonstração interativo publicado via GitHub Pages:
+- 🔗 **Acesso Web**: [https://rodrigos1989.github.io/prefeitura-web/](https://rodrigos1989.github.io/prefeitura-web/)
+- 💻 **Repositório Público**: [https://github.com/RodrigoS1989/prefeitura-web](https://github.com/RodrigoS1989/prefeitura-web)
+
+---
+
+## 🎨 Ergonomia Visual & Esquema de Cores (Atendimento e PEP)
+
+O módulo de Atendimento e Prontuário Eletrônico do Paciente (PEP) adota uma paleta clínica de alto contraste e legibilidade:
+- **Protocolo Manchester de Triagem**:
+  - 🔴 **Vermelho (Emergência - 0 min)**: Carmesim profundo (`#dc2626`) com tipografia branca.
+  - 🟠 **Laranja (Muito Urgente - 10 min)**: Laranja vivo (`#ea580c`) com tipografia branca.
+  - 🟡 **Amarelo (Urgente - 60 min)**: Fundo âmbar de alta luminância (`#fde047`) com **tipografia escura de alto contraste (`#451a03`)** para eliminar ofuscamento e fadiga visual.
+  - 🟢 **Verde (Pouco Urgente - 120 min)**: Verde esmeralda (`#10b981`) com tipografia branca.
+  - 🔵 **Azul (Não Urgente - 240 min)**: Azul royal (`#3b82f6`) com tipografia branca.
+- **Painel Digital do Totem / Chamada Ambulatorial**: Estilo *digital signage* hospitalar moderno com fundo ultra escuro (`bg-slate-950`), bordas ciano luminescentes e tipografia monoespaçada de alta visibilidade.
+- **HUD de Sinais Vitais no PEP**: Cores diferenciadas por parâmetro clínico (PA em verde esmeralda, FC em rosa, Temperatura em âmbar, SpO2 em azul céu e Glicemia em roxo).
+- **Cartões SOAP Estruturados**: Identificação visual por faixas laterais coloridas nos 4 eixos (Subjetivo em azul céu, Objetivo em verde, Avaliação em âmbar e Plano Terapêutico em índigo).
 
 ---
 
