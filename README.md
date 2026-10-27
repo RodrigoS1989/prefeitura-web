@@ -35,7 +35,7 @@ Fiel à ergonomia e agilidade operacional do sistema desktop original Delphi (`S
 | **E03** | Unidades & Profissionais | ✅ Concluída | Unidades de saúde (`ARQ005`/CNES), profissionais (`ARQ020`), CBO 2002 e lotações |
 | **E04** | Atendimento Clínico & PEP | ✅ Concluída | Prontuário Eletrônico, acolhimento, triagem Manchester (5 cores) e SOAP clínico (`FTD*`), 100% em modais |
 | **E05** | Farmácia Municipal | ✅ Concluída | Catálogo REMUME, rastreabilidade de lotes, algoritmo FEFO e dispensação em modais |
-| **E06** | Agendamento & Regulação | 📋 Planejada | Agendamento de consultas e exames, regulação de cotas e Redis Locks |
+| **E06** | Agendamento & Regulação | ✅ Concluída | Consultas e exames, regulação de cotas municipais SUS, bloqueio de concorrência (Redis Lock) e comprovante em modal |
 | **E07** | Faturamento SUS | 📋 Planejada | Produção ambulatorial BPA/APAC e cruzamento SIGTAP |
 | **E08** | Assistência Social (SUAS) | 📋 Planejada | Gestão de famílias, vulnerabilidade, PAIF/PAEFI e benefícios eventuais |
 | **E09** | e-SUS APS & Vacinação | 📋 Planejada | Sala de vacina, cadeia de frio, visitas domiciliares ACS e notificações SINAN |

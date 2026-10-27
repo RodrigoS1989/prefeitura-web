@@ -7,6 +7,41 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AgendamentoSchema extends BaseModel {
+  static $columns = ['cidadaoId', 'createdAt', 'dataHora', 'especialidadeOuExame', 'id', 'motivoCancelamento', 'observacoes', 'prioridade', 'profissionalId', 'protocolo', 'status', 'tipo', 'unidadeExecutanteId', 'unidadeSolicitanteId', 'updatedAt'] as const
+  $columns = AgendamentoSchema.$columns
+  @column()
+  declare cidadaoId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare dataHora: DateTime
+  @column()
+  declare especialidadeOuExame: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare motivoCancelamento: string | null
+  @column()
+  declare observacoes: string | null
+  @column()
+  declare prioridade: string
+  @column()
+  declare profissionalId: number | null
+  @column()
+  declare protocolo: string
+  @column()
+  declare status: string
+  @column()
+  declare tipo: string
+  @column()
+  declare unidadeExecutanteId: number | null
+  @column()
+  declare unidadeSolicitanteId: number | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class AtendimentoSchema extends BaseModel {
   static $columns = ['caraterAtendimento', 'cidadaoId', 'codigoBarras', 'createdAt', 'dataHoraChegada', 'dataHoraFinalizacao', 'dataHoraInicioAtendimento', 'dataHoraTriagem', 'discriminadorManchester', 'id', 'motivoCancelamento', 'numeroAtendimento', 'prioridadeManchester', 'profissionalId', 'queixaPrincipal', 'senhaPainel', 'sigiloso', 'status', 'tempoAlvoMinutos', 'tipoAtendimento', 'unidadeSaudeId', 'updatedAt'] as const
   $columns = AtendimentoSchema.$columns
@@ -197,6 +232,29 @@ export class ConselhosProfissionaiSchema extends BaseModel {
   declare sigla: string
   @column()
   declare uf: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class CotasAgendamentoSchema extends BaseModel {
+  static $columns = ['cotaMensal', 'cotaUtilizada', 'createdAt', 'especialidadeOuExame', 'id', 'mesAno', 'tipo', 'unidadeSolicitanteId', 'updatedAt'] as const
+  $columns = CotasAgendamentoSchema.$columns
+  @column()
+  declare cotaMensal: number
+  @column()
+  declare cotaUtilizada: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare especialidadeOuExame: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare mesAno: string
+  @column()
+  declare tipo: string
+  @column()
+  declare unidadeSolicitanteId: number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

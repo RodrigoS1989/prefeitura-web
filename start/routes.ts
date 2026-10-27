@@ -96,6 +96,16 @@ router.post('/farmacia/lotes', [FarmaciaController, 'storeLote']).as('farmacia.l
 router.get('/api/farmacia/medicamentos/:id/lotes', [FarmaciaController, 'lotesPorMedicamento']).as('api.farmacia.lotes')
 router.post('/farmacia/dispensar', [FarmaciaController, 'dispensar']).as('farmacia.dispensar')
 
+// Módulo Agendamento & Regulação de Consultas/Exames (Etapa 06: UPM216, UPM201, PMD044)
+const AgendamentosController = () => import('#controllers/agendamentos_controller')
+
+router.get('/agendamentos', [AgendamentosController, 'index']).as('agendamentos.index')
+router.post('/agendamentos', [AgendamentosController, 'store']).as('agendamentos.store')
+router.post('/agendamentos/:id/cancelar', [AgendamentosController, 'cancelar']).as('agendamentos.cancelar')
+router.post('/agendamentos/:id/confirmar', [AgendamentosController, 'confirmar']).as('agendamentos.confirmar')
+router.get('/api/agendamentos/cotas', [AgendamentosController, 'apiCotas']).as('api.agendamentos.cotas')
+
 // Sessão & Logout (Etapa 00)
 router.post('logout', [controllers.Session, 'destroy'])
+
 

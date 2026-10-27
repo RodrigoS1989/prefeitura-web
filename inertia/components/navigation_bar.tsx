@@ -47,7 +47,7 @@ export const navigationItems: NavItem[] = [
   { label: 'Profissionais & CBO', href: '/profissionais', icon: Stethoscope, badge: 'Etapa 3', category: 'Saúde', available: true },
   { label: 'Atendimento & PEP', href: '/atendimentos', icon: Activity, badge: 'Etapa 4', category: 'Saúde', available: true },
   { label: 'Farmácia Municipal', href: '/farmacia', icon: Pill, badge: 'Etapa 5', category: 'Farmácia & Regulação', available: true },
-  { label: 'Agendamento & Regulação', href: '/agendamentos', icon: Calendar, badge: 'Em breve (E6)', category: 'Farmácia & Regulação', available: false },
+  { label: 'Agendamento & Regulação', href: '/agendamentos', icon: Calendar, badge: 'Etapa 6', category: 'Farmácia & Regulação', available: true },
   { label: 'Assistência Social', href: '/social', icon: HeartHandshake, badge: 'Em breve (E8)', category: 'Cidadania', available: false },
   { label: 'e-SUS APS & Vacinas', href: '/esus', icon: Syringe, badge: 'Em breve (E9)', category: 'Saúde', available: false },
   { label: 'Frota & Auditoria', href: '/frota', icon: ShieldCheck, badge: 'Em breve (E10)', category: 'Geral', available: false },
