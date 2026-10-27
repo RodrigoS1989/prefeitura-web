@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prefeitura Web | Sistema Integrado de Saúde & Assistência Social</title>
-  <meta name="description" content="Demonstração interativa do sistema Prefeitura Web: Atendimento Ambulatorial, Protocolo Manchester de Triagem e Prontuário Eletrônico do Paciente (PEP).">
+  <meta name="description" content="Sistema Municipal de Gestão em Saúde Pública e Assistência Social: Dashboard, Cidadãos (CadÚnico/SUS), Território, Unidades, Profissionais, Atendimento Ambulatorial com Triagem Manchester, PEP e Farmácia FEFO.">
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -16,7 +17,7 @@
             manchester: {
               vermelho: '#dc2626',
               laranja: '#ea580c',
-              amarelo: '#f59e0b',
+              amarelo: '#fde047',
               verde: '#10b981',
               azul: '#3b82f6',
             }
@@ -28,608 +29,1114 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
     body { font-family: 'Inter', sans-serif; }
     .font-mono { font-family: 'JetBrains+Mono', monospace; }
     @keyframes pulse-ring {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.05); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
+      0% { transform: scale(0.96); opacity: 0.8; }
+      50% { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(0.96); opacity: 0.8; }
     }
     .calling-pulse {
       animation: pulse-ring 2s infinite ease-in-out;
     }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
 
-  <!-- TOP BAR -->
-  <header class="bg-slate-950/90 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white font-black text-xl">
-          🏛️
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-lg text-white tracking-tight">Prefeitura Web</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium">v1.0.4 Online</span>
+  <!-- TOP HEADER / APP SHELL -->
+  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 backdrop-blur-md bg-slate-900/90">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between gap-4">
+        
+        <!-- LOGO & BRAND -->
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white font-black text-xl shrink-0">
+            🏛️
           </div>
-          <p class="text-xs text-slate-400">Sistema Municipal de Saúde Pública • Triagem Manchester & PEP</p>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-lg text-white tracking-tight">Prefeitura Web</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold uppercase tracking-wider">
+                Produção Online
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 hidden sm:block">Ecossistema Municipal de Gestão em Saúde Pública & Cidadania</p>
+          </div>
         </div>
-      </div>
 
-      <div class="flex items-center gap-3">
-        <a href="https://github.com/RodrigoS1989/prefeitura-web" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
-          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-          <span>Ver no GitHub</span>
-        </a>
+        <!-- CONTEXT CONTROLS -->
+        <div class="flex items-center gap-3">
+          <!-- UNIDADE SELECTOR -->
+          <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs">
+            <span class="text-slate-400">🏥 Unidade:</span>
+            <select id="header-unidade-select" onchange="alterarUnidade(this.value)" class="bg-transparent text-white font-semibold outline-none cursor-pointer">
+              <option value="1">UBS Central Dr. Haroldo (CNES 2078491)</option>
+              <option value="2">USF Jardim das Flores (CNES 2078492)</option>
+              <option value="3">UPA 24h Zona Sul (CNES 2078493)</option>
+            </select>
+          </div>
+
+          <!-- USER ROLE -->
+          <div class="flex items-center gap-2 pl-2 border-l border-slate-800">
+            <div class="h-8 w-8 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-400 flex items-center justify-center font-bold text-xs">
+              DR
+            </div>
+            <div class="hidden sm:block text-left">
+              <div class="text-xs font-bold text-white">Dr. Rodrigo Santana</div>
+              <div class="text-[10px] text-slate-400 font-mono">CRM/SP 189420 • Médico</div>
+            </div>
+          </div>
+
+          <!-- GITHUB LINK -->
+          <a href="https://github.com/RodrigoS1989/prefeitura-web" target="_blank" rel="noopener noreferrer" class="hidden lg:flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+
       </div>
     </div>
+
+    <!-- HORIZONTAL SYSTEM NAVIGATION BAR (NAVIGATIONBAR.TSX EXACT MAPPING) -->
+    <nav class="bg-slate-950 border-t border-slate-800/80 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto flex items-center gap-1 overflow-x-auto no-scrollbar py-2 text-xs">
+        
+        <button onclick="navigate('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-lg font-bold flex items-center gap-2 whitespace-nowrap bg-blue-600 text-white shadow-sm transition">
+          📊 Dashboard Geral
+        </button>
+
+        <button onclick="navigate('cidadaos')" id="nav-cidadaos" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900 transition">
+          👥 Cidadãos (CadÚnico/SUS)
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">E1</span>
+        </button>
+
+        <button onclick="navigate('territorio')" id="nav-territorio" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900 transition">
+          🗺️ Território & Geografia
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">E2</span>
+        </button>
+
+        <button onclick="navigate('parametros')" id="nav-parametros" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900 transition">
+          ⚙️ Parâmetros Gerais
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">E2</span>
+        </button>
+
+        <button onclick="navigate('unidades')" id="nav-unidades" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900 transition">
+          🏥 Unidades de Saúde (UBS)
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">E3</span>
+        </button>
+
+        <button onclick="navigate('profissionais')" id="nav-profissionais" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900 transition">
+          👨‍⚕️ Profissionais & CBO
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold">E3</span>
+        </button>
+
+        <button onclick="navigate('atendimentos')" id="nav-atendimentos" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-slate-400 hover:text-white hover:bg-slate-900 transition">
+          🩺 Atendimento & PEP
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 font-bold">E4</span>
+        </button>
+
+        <button onclick="navigate('farmacia')" id="nav-farmacia" class="nav-btn px-3 py-2 rounded-lg font-semibold flex items-center gap-2 whitespace-nowrap text-amber-300 hover:text-amber-200 hover:bg-slate-900 transition">
+          💊 Farmácia Municipal & FEFO
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">E5</span>
+        </button>
+
+      </div>
+    </nav>
   </header>
 
-  <!-- HERO / SYSTEM SUMMARY -->
-  <section class="border-b border-slate-800 bg-gradient-to-b from-slate-950 to-slate-900 py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+  <!-- MAIN APP ROUTING CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+
+    <!-- ======================================================== -->
+    <!-- 1. VIEW: DASHBOARD GERAL                                  -->
+    <!-- ======================================================== -->
+    <div id="view-dashboard" class="app-view space-y-6">
+      
+      <!-- HEADER DO DASHBOARD -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 mb-3">
-            ✨ Etapa 04 Concluída: Atendimento Ambulatorial, Manchester & PEP
-          </span>
-          <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Ambiente de Demonstração & Acesso Web
-          </h1>
-          <p class="mt-2 text-slate-400 max-w-2xl text-sm sm:text-base">
-            Plataforma municipal desenvolvida em <strong>AdonisJS 6</strong>, <strong>React 19</strong>, <strong>Inertia.js</strong> e <strong>Tailwind CSS</strong>, substituindo legados desktop por uma interface web clínica de alto contraste, ágil e 100% modal.
+          <h1 class="text-2xl font-black text-white tracking-tight">Painel de Controle Municipal</h1>
+          <p class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+            <span>🏛️</span>
+            <span>Prefeitura Municipal de Referência • Secretaria Municipal de Saúde & Cidadania</span>
           </p>
         </div>
-
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center shrink-0">
-          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <div class="text-2xl font-black text-emerald-400">23/23</div>
-            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Testes Japa</div>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <div class="text-2xl font-black text-cyan-400">100%</div>
-            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Modais SPA</div>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <div class="text-2xl font-black text-amber-400">5 Níveis</div>
-            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Manchester</div>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <div class="text-2xl font-black text-indigo-400">SOAP</div>
-            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Evolução PEP</div>
-          </div>
+        <div class="flex items-center gap-2">
+          <button onclick="abrirModalAcolhimento()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span>+ Abrir Acolhimento (FAA)</span>
+          </button>
+          <button onclick="abrirModalNovoCidadao()" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-xs flex items-center gap-1.5 transition">
+            <span>+ Novo Cidadão</span>
+          </button>
         </div>
       </div>
 
-      <!-- TABS -->
-      <div class="flex items-center gap-2 mt-8 border-b border-slate-800 overflow-x-auto pb-px">
-        <button onclick="switchTab('totem')" id="tab-totem" class="tab-btn active px-4 py-2.5 text-sm font-semibold border-b-2 border-cyan-500 text-cyan-400 flex items-center gap-2">
-          📺 Totem & Painel de Chamada TV
-        </button>
-        <button onclick="switchTab('pep')" id="tab-pep" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-          🩺 Prontuário Eletrônico (PEP)
-        </button>
-        <button onclick="switchTab('manchester')" id="tab-manchester" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-          🚦 Protocolo Manchester de Triagem
-        </button>
-        <button onclick="switchTab('acolhimento')" id="tab-acolhimento" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-          📋 Acolhimento & FAA
-        </button>
-        <button onclick="switchTab('modulos')" id="tab-modulos" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-          🏛️ Módulos & Arquitetura
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAIN INTERACTIVE CONTAINER -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-
-    <!-- 1. TAB: TOTEM & PAINEL DE CHAMADA TV -->
-    <div id="content-totem" class="tab-content space-y-6">
-      <div class="flex flex-col lg:flex-row gap-6 items-start">
+      <!-- KPI CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        <!-- DISPLAY TV BOX -->
-        <div class="w-full lg:w-2/3 bg-slate-950 border-2 border-cyan-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl shadow-cyan-950/50 relative overflow-hidden">
-          <div class="absolute -right-16 -top-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-blue-500 space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Cidadãos Cadastrados</span>
+            <span class="text-blue-400 font-bold">SUS / CadÚnico</span>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-cidadaos">1.240</div>
+          <div class="text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
+            <span>✓ Prontuário Único Integrado (Etapa 01)</span>
+          </div>
+        </div>
 
-          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div class="flex items-center gap-3">
-              <span class="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span class="text-xs font-mono tracking-widest text-cyan-400 uppercase font-semibold">PAINEL DIGITAL AMBULATORIAL • SALA DE ESPERA</span>
-            </div>
-            <div id="clock" class="text-sm font-mono text-slate-400 font-bold">15:30:00</div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-emerald-500 space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Território & Logradouros</span>
+            <span class="text-emerald-400 font-bold">18 Bairros</span>
+          </div>
+          <div class="text-3xl font-black text-white">412 Ruas</div>
+          <div class="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
+            <span>✓ Georreferenciamento Ativo (Etapa 02)</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-cyan-500 space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Rede de Saúde Municipal</span>
+            <span class="text-cyan-400 font-bold">CNES Oficial</span>
+          </div>
+          <div class="text-3xl font-black text-white">12 Unidades</div>
+          <div class="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
+            <span>✓ UBS, USF, UPAs e Policlínicas (Etapa 03)</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-amber-500 space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Atendimentos Ambulatoriais</span>
+            <span class="text-amber-400 font-bold">Hoje</span>
+          </div>
+          <div class="text-3xl font-black text-white" id="kpi-atendimentos">64 FAAs</div>
+          <div class="text-[11px] text-amber-300 flex items-center gap-1 font-medium">
+            <span>● 5 em Triagem • 3 no PEP</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SEÇÃO DUPLA: DISTRIBUIÇÃO MANCHESTER & ATENDIMENTOS RECENTES -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- PROTOCOLO MANCHESTER STATUS -->
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">🚦 Triagem Manchester Hoje</h3>
+            <button onclick="navigate('atendimentos')" class="text-xs text-cyan-400 hover:underline">Ver Fila</button>
           </div>
 
-          <div class="my-8 text-center py-6 bg-slate-900/60 rounded-xl border border-slate-800/80 calling-pulse">
-            <div class="text-xs font-mono uppercase tracking-widest text-slate-400 mb-1">CHAMADA ATUAL EM TELA</div>
-            <div id="tv-senha" class="text-6xl sm:text-7xl font-black font-mono tracking-wider text-cyan-400 drop-shadow-[0_0_25px_rgba(6,182,212,0.4)]">
+          <div class="space-y-2.5">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-red-400">Vermelho (Emergência - 0 min)</span>
+                <span class="font-mono text-white">2 (3.1%)</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-red-600 h-full w-[3.1%]"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-orange-400">Laranja (Muito Urgente - 10 min)</span>
+                <span class="font-mono text-white">8 (12.5%)</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-orange-600 h-full w-[12.5%]"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-amber-300">Amarelo (Urgente - 60 min)</span>
+                <span class="font-mono text-white">24 (37.5%)</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-amber-400 h-full w-[37.5%]"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-emerald-400">Verde (Pouco Urgente - 120 min)</span>
+                <span class="font-mono text-white">22 (34.3%)</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-emerald-600 h-full w-[34.3%]"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-blue-400">Azul (Não Urgente - 240 min)</span>
+                <span class="font-mono text-white">8 (12.5%)</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-blue-600 h-full w-[12.5%]"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400">
+            Tempo médio de espera na UBS: <strong class="text-white">18 minutos</strong> (Dentro do SLA).
+          </div>
+        </div>
+
+        <!-- TABELA RESUMIDA DE ATENDIMENTOS DO DIA -->
+        <div class="lg:col-span-2 p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">📋 Últimos Atendimentos no Plantão</h3>
+            <span class="text-xs text-slate-400">Atualizado em tempo real</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider">
+                <tr>
+                  <th class="pb-2">Senha / FAA</th>
+                  <th class="pb-2">Cidadão</th>
+                  <th class="pb-2">Classificação</th>
+                  <th class="pb-2">Status</th>
+                  <th class="pb-2 text-right">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-atendimentos-tbody" class="divide-y divide-slate-800/60 text-slate-200">
+                <!-- Injetado via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 2. VIEW: CIDADÃOS & CADÚNICO                              -->
+    <!-- ======================================================== -->
+    <div id="view-cidadaos" class="app-view hidden space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-black text-white tracking-tight">Cidadãos & Prontuário Único</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Base unificada municipal integrada com SUS (CNS), CadÚnico (NIS) e CPF.</p>
+        </div>
+        <button onclick="abrirModalNovoCidadao()" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+          <span>+ Cadastrar Cidadão</span>
+        </button>
+      </div>
+
+      <!-- FILTRO DE BUSCA -->
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row gap-3">
+        <div class="relative flex-1">
+          <span class="absolute left-3 top-2.5 text-slate-500">🔍</span>
+          <input type="text" id="filtro-cidadaos" oninput="filtrarCidadaos(this.value)" placeholder="Buscar por Nome, CPF, Cartão SUS (CNS) ou NIS..." class="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
+        </div>
+        <select class="px-3 py-2 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white">
+          <option value="todos">Todos os Bairros</option>
+          <option value="centro">Centro</option>
+          <option value="jardim">Jardim das Flores</option>
+        </select>
+      </div>
+
+      <!-- TABELA DE CIDADÃOS -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950/80 text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Nome Completo</th>
+                <th class="py-3 px-4">CPF / Documento</th>
+                <th class="py-3 px-4">Cartão SUS (CNS)</th>
+                <th class="py-3 px-4">Bairro / Território</th>
+                <th class="py-3 px-4">CadÚnico</th>
+                <th class="py-3 px-4 text-right">Ações em Modal</th>
+              </tr>
+            </thead>
+            <tbody id="cidadaos-tbody" class="divide-y divide-slate-800 text-slate-200">
+              <!-- Injetado via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 3. VIEW: TERRITÓRIO & GEOGRAFIA                           -->
+    <!-- ======================================================== -->
+    <div id="view-territorio" class="app-view hidden space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-black text-white tracking-tight">Território & Geografia Municipal</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Zoneamento sanitário, bairros, logradouros e microáreas de saúde da família.</p>
+        </div>
+        <button onclick="alert('Modal de Novo Bairro / Logradouro acionado')" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+          <span>+ Cadastrar Logradouro</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm">Bairros Monitorados</h3>
+            <span class="text-xs font-mono text-emerald-400">18 Bairros</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <strong class="text-white">Centro Histórico</strong>
+                <div class="text-[10px] text-slate-400">UBS Central (Referência)</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">4.120 hab</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <strong class="text-white">Jardim das Flores</strong>
+                <div class="text-[10px] text-slate-400">USF Flores (ESF 01 e 02)</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">6.850 hab</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <strong class="text-white">Vila Esperança</strong>
+                <div class="text-[10px] text-slate-400">UBS Esperança</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">3.200 hab</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm">Logradouros e Vias Públicas</h3>
+            <input type="text" placeholder="Filtrar logradouro por CEP..." class="px-2.5 py-1 text-xs rounded bg-slate-950 border border-slate-800 text-white w-48">
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="text-slate-400 border-b border-slate-800 uppercase text-[10px]">
+                <tr>
+                  <th class="pb-2">Tipo / Nome</th>
+                  <th class="pb-2">Bairro</th>
+                  <th class="pb-2">CEP</th>
+                  <th class="pb-2 text-right">UBS Referência</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-300">
+                <tr>
+                  <td class="py-2.5 font-semibold text-white">Avenida Brasil</td>
+                  <td>Centro Histórico</td>
+                  <td class="font-mono text-cyan-400">14800-010</td>
+                  <td class="text-right">UBS Central</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 font-semibold text-white">Rua das Acácias</td>
+                  <td>Jardim das Flores</td>
+                  <td class="font-mono text-cyan-400">14800-240</td>
+                  <td class="text-right">USF Flores</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 font-semibold text-white">Rua Sete de Setembro</td>
+                  <td>Vila Esperança</td>
+                  <td class="font-mono text-cyan-400">14800-580</td>
+                  <td class="text-right">UBS Esperança</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 4. VIEW: PARÂMETROS GERAIS                                -->
+    <!-- ======================================================== -->
+    <div id="view-parametros" class="app-view hidden space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-black text-white tracking-tight">Parâmetros Gerais do Município</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Identidade institucional, órgãos executivos e configurações da prefeitura.</p>
+        </div>
+        <button onclick="alert('Parâmetros salvos com sucesso!')" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow transition">
+          Salvar Alterações
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">🏛️ Dados da Prefeitura</h3>
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="text-slate-400 block mb-1">Razão Social / Município:</label>
+              <input type="text" value="Prefeitura Municipal de Referência" class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white font-semibold">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-slate-400 block mb-1">CNPJ:</label>
+                <input type="text" value="46.123.456/0001-90" class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white font-mono">
+              </div>
+              <div>
+                <label class="text-slate-400 block mb-1">Código IBGE:</label>
+                <input type="text" value="3503208" class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white font-mono">
+              </div>
+            </div>
+            <div>
+              <label class="text-slate-400 block mb-1">Endereço da Sede do Paço Municipal:</label>
+              <input type="text" value="Praça dos Três Poderes, nº 100 - Centro" class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-white">
+            </div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">🏢 Secretarias Municipais</h3>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-white">Secretaria Municipal de Saúde (SMS)</div>
+                <div class="text-[11px] text-slate-400">Titular: Dra. Patrícia Albuquerque</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Ativa</span>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-white">Secretaria de Assistência e Desenvolvimento Social</div>
+                <div class="text-[11px] text-slate-400">Titular: Marcos Vinícius Toledo</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Ativa</span>
+            </div>
+            <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center">
+              <div>
+                <div class="font-bold text-white">Secretaria Municipal de Administração & Fazenda</div>
+                <div class="text-[11px] text-slate-400">Titular: Roberto Andrade</div>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Ativa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 5. VIEW: UNIDADES DE SAÚDE                                -->
+    <!-- ======================================================== -->
+    <div id="view-unidades" class="app-view hidden space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-black text-white tracking-tight">Unidades de Saúde (CNES)</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Estabelecimentos cadastrados na rede assistencial do SUS municipal.</p>
+        </div>
+        <button onclick="alert('Modal de Cadastro de Unidade de Saúde acionado')" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+          <span>+ Cadastrar Unidade</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">CNES 2078491</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">PORTAL ATIVO</span>
+          </div>
+          <h3 class="text-base font-bold text-white">UBS Central Dr. Haroldo</h3>
+          <p class="text-xs text-slate-400">Av. Brasil, 450 - Centro • (16) 3301-4400</p>
+          <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300 flex justify-between">
+            <span>Tipo: UBS Porte III</span>
+            <span class="font-bold text-cyan-400">4 Equipes</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">CNES 2078492</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">PORTAL ATIVO</span>
+          </div>
+          <h3 class="text-base font-bold text-white">USF Jardim das Flores</h3>
+          <p class="text-xs text-slate-400">Rua das Acácias, 110 - Jd Flores • (16) 3301-4405</p>
+          <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300 flex justify-between">
+            <span>Tipo: Estratégia Saúde Família</span>
+            <span class="font-bold text-cyan-400">2 Equipes</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">CNES 2078493</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">PORTAL ATIVO</span>
+          </div>
+          <h3 class="text-base font-bold text-white">UPA 24h Zona Sul</h3>
+          <p class="text-xs text-slate-400">Av. Presidente Vargas, 1200 • (16) 3301-4499</p>
+          <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-300 flex justify-between">
+            <span>Tipo: Urgência / Emergência</span>
+            <span class="font-bold text-cyan-400">Plantão 24h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 6. VIEW: PROFISSIONAIS & CBO                              -->
+    <!-- ======================================================== -->
+    <div id="view-profissionais" class="app-view hidden space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-black text-white tracking-tight">Profissionais de Saúde & CBO</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Corpo clínico municipal, conselhos de classe (CRM, COREN, CRO) e lotações.</p>
+        </div>
+        <button onclick="alert('Modal de Cadastro de Profissional acionado')" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+          <span>+ Cadastrar Profissional</span>
+        </button>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950/80 text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="py-3 px-4">Profissional</th>
+                <th class="py-3 px-4">CBO 2002</th>
+                <th class="py-3 px-4">Registro de Classe</th>
+                <th class="py-3 px-4">Lotação Atual</th>
+                <th class="py-3 px-4 text-right">Ação</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200">
+              <tr>
+                <td class="py-3 px-4">
+                  <div class="font-bold text-white">Dr. Rodrigo Santana</div>
+                  <div class="text-[11px] text-slate-400">Médico Clínico Geral</div>
+                </td>
+                <td class="py-3 px-4 font-mono text-cyan-400">2251-25 (Clínico Geral)</td>
+                <td class="py-3 px-4">CRM/SP 189420</td>
+                <td class="py-3 px-4 font-semibold text-slate-300">UBS Central Dr. Haroldo</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="text-blue-400 hover:underline">Ver Lotação</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4">
+                  <div class="font-bold text-white">Dra. Camila Nogueira</div>
+                  <div class="text-[11px] text-slate-400">Médica Pediatra</div>
+                </td>
+                <td class="py-3 px-4 font-mono text-cyan-400">2251-24 (Pediatra)</td>
+                <td class="py-3 px-4">CRM/SP 192340</td>
+                <td class="py-3 px-4 font-semibold text-slate-300">UBS Central Dr. Haroldo</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="text-blue-400 hover:underline">Ver Lotação</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4">
+                  <div class="font-bold text-white">Enfª Juliana Alencar</div>
+                  <div class="text-[11px] text-slate-400">Enfermeira Chefe PSF</div>
+                </td>
+                <td class="py-3 px-4 font-mono text-cyan-400">2235-05 (Enfermeiro)</td>
+                <td class="py-3 px-4">COREN/SP 450123</td>
+                <td class="py-3 px-4 font-semibold text-slate-300">USF Jardim das Flores</td>
+                <td class="py-3 px-4 text-right">
+                  <button class="text-blue-400 hover:underline">Ver Lotação</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 7. VIEW: ATENDIMENTO & PEP                                -->
+    <!-- ======================================================== -->
+    <div id="view-atendimentos" class="app-view hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-black text-white tracking-tight">Atendimento Ambulatorial & PEP</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Totem de chamada, Triagem Manchester com alto contraste e Prontuário Eletrônico.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="abrirModalAcolhimento()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span>+ Abrir FAA (Acolhimento)</span>
+          </button>
+          <button onclick="abrirModalPEP(atendimentosData[0])" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span>🩺 Iniciar Consulta PEP</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TOTEM & PAINEL DE CHAMADA -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- DISPLAY DIGITAL TV -->
+        <div class="lg:col-span-2 bg-slate-950 border-2 border-cyan-500/40 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-[11px] font-mono tracking-widest text-cyan-400 font-bold uppercase">PAINEL DIGITAL AMBULATORIAL</span>
+            </div>
+            <div id="totem-clock" class="text-xs font-mono text-slate-400 font-bold">15:30:00</div>
+          </div>
+
+          <div class="my-6 text-center py-6 bg-slate-900/60 rounded-xl border border-slate-800/80 calling-pulse">
+            <div class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1">CHAMADA EM TELA</div>
+            <div id="totem-senha" class="text-6xl font-black font-mono tracking-wider text-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.4)]">
               C-042
             </div>
-            <div id="tv-paciente" class="text-xl sm:text-2xl font-bold text-white mt-3">
+            <div id="totem-paciente" class="text-xl font-bold text-white mt-2">
               MARIA DA SILVA SANTOS
             </div>
-            <div class="mt-4 flex items-center justify-center gap-4 flex-wrap">
-              <span id="tv-consultorio" class="px-4 py-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-sm font-bold">
+            <div class="mt-3 flex items-center justify-center gap-3 flex-wrap">
+              <span id="totem-consultorio" class="px-3 py-1 rounded bg-cyan-950 border border-cyan-500/50 text-cyan-300 font-mono text-xs font-bold">
                 CONSULTÓRIO 02 - CLÍNICA MÉDICA
               </span>
-              <span id="tv-badge" class="px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-amber-300 text-amber-950 border border-amber-500 shadow-sm">
+              <span id="totem-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-300 text-amber-950 border border-amber-500 shadow-sm">
                 ● AMARELO • URGENTE (60 MIN)
               </span>
             </div>
           </div>
 
-          <!-- HISTORICO ULTIMAS CHAMADAS -->
-          <div>
-            <div class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2">ÚLTIMAS SENHAS CHAMADAS</div>
-            <div id="tv-historico" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
-                <div>
-                  <div class="font-mono text-cyan-400 font-bold">C-041</div>
-                  <div class="text-xs text-slate-300 truncate max-w-[120px]">João Pedro de Souza</div>
-                </div>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-600 text-white">VERDE</span>
-              </div>
-              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
-                <div>
-                  <div class="font-mono text-cyan-400 font-bold">C-040</div>
-                  <div class="text-xs text-slate-300 truncate max-w-[120px]">Ana Clara Ferreira</div>
-                </div>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-orange-600 text-white">LARANJA</span>
-              </div>
-              <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between">
-                <div>
-                  <div class="font-mono text-cyan-400 font-bold">C-039</div>
-                  <div class="text-xs text-slate-300 truncate max-w-[120px]">Carlos Eduardo Lima</div>
-                </div>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-600 text-white">AZUL</span>
-              </div>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Anterior</span>
+              <span class="font-mono text-cyan-400 font-bold">C-041</span>
+            </div>
+            <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Consultório</span>
+              <span class="text-slate-300 font-semibold truncate block">Pediatria 01</span>
+            </div>
+            <div class="p-2 rounded bg-slate-900/80 border border-slate-800">
+              <span class="text-[10px] text-slate-400 block">Classificação</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-600 text-white">VERDE</span>
             </div>
           </div>
         </div>
 
-        <!-- CONTROLES DO OPERADOR / TOTEM -->
-        <div class="w-full lg:w-1/3 space-y-4">
-          <div class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
-            <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <span>🔔 Controle de Chamada em Consultório</span>
-            </h3>
-            <p class="text-xs text-slate-400">
-              Simule a chamada de senhas pelo médico ou triagem. Toca aviso sonoro do totem e pisca o monitor.
-            </p>
+        <!-- CONTROLE RÁPIDO DO MÉDICO / ENFERMEIRO -->
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <span>🔔 Chamar Paciente da Fila</span>
+          </h3>
+          <p class="text-xs text-slate-400">
+            Dispare a chamada sonora no totem e atualize a tela da sala de espera.
+          </p>
 
-            <div class="space-y-2">
-              <label class="text-xs font-semibold text-slate-300">Selecione Consultório:</label>
-              <select id="ctrl-consultorio" class="w-full text-xs p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-white">
-                <option value="CONSULTÓRIO 01 - PEDIATRIA">Consultório 01 - Pediatria</option>
-                <option value="CONSULTÓRIO 02 - CLÍNICA MÉDICA" selected>Consultório 02 - Clínica Médica</option>
-                <option value="CONSULTÓRIO 03 - GINECOLOGIA">Consultório 03 - Ginecologia</option>
-                <option value="SALA 04 - TRIAGEM MANCHESTER">Sala 04 - Triagem Manchester</option>
-              </select>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
-              <button onclick="chamarProxima('amarelo')" class="px-3 py-2.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
-                <span>🔔 Chamar Amarelo</span>
-              </button>
-              <button onclick="chamarProxima('laranja')" class="px-3 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
-                <span>🚨 Chamar Laranja</span>
-              </button>
-              <button onclick="chamarProxima('vermelho')" class="px-3 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
-                <span>⚡ Chamar Vermelho</span>
-              </button>
-              <button onclick="chamarProxima('verde')" class="px-3 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition">
-                <span>✅ Chamar Verde</span>
-              </button>
-            </div>
-
-            <div class="pt-2 border-t border-slate-800 text-[11px] text-slate-400">
-              💡 <em>O sinal sonoro de dois tons (Ding-Dong) utiliza a Web Audio API nativa do navegador para simulação imediata.</em>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs space-y-2">
-            <span class="font-bold text-slate-300">Novo Esquema de Cores Atendimento:</span>
-            <ul class="space-y-1 text-slate-400 text-[11px]">
-              <li>• <strong>Vermelho (Emergência):</strong> Vermelho carmesim profundo contrastante (#dc2626).</li>
-              <li>• <strong>Laranja (Muito Urgente):</strong> Laranja queimado vibrante (#ea580c).</li>
-              <li>• <strong>Amarelo (Urgente):</strong> Fundo âmbar de alta luminância (#fde047) com tipografia <strong>preta/castanho escuro (#451a03)</strong> para máxima legibilidade clínica.</li>
-              <li>• <strong>Verde & Azul:</strong> Verde esmeralda (#10b981) e azul royal (#3b82f6).</li>
-            </ul>
+          <div class="grid grid-cols-2 gap-2 pt-2">
+            <button onclick="chamarProximaTotem('amarelo')" class="px-3 py-2.5 rounded-lg bg-amber-300 hover:bg-amber-400 text-amber-950 font-black text-xs shadow transition">
+              🔔 Chamar Amarelo
+            </button>
+            <button onclick="chamarProximaTotem('laranja')" class="px-3 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs shadow transition">
+              🚨 Chamar Laranja
+            </button>
+            <button onclick="chamarProximaTotem('vermelho')" class="px-3 py-2.5 rounded-lg bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow transition">
+              ⚡ Chamar Vermelho
+            </button>
+            <button onclick="chamarProximaTotem('verde')" class="px-3 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition">
+              ✅ Chamar Verde
+            </button>
           </div>
         </div>
 
       </div>
+
+      <!-- FILA DE ESPERA E ATENDIMENTO -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden space-y-2 p-4">
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Fila Ambulatorial em Tempo Real</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="text-slate-400 border-b border-slate-800 uppercase text-[10px]">
+              <tr>
+                <th class="pb-2">Senha / FAA</th>
+                <th class="pb-2">Cidadão / Paciente</th>
+                <th class="pb-2">Classificação Manchester</th>
+                <th class="pb-2">Queixa / Sintoma</th>
+                <th class="pb-2">Status</th>
+                <th class="pb-2 text-right">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="atendimentos-fila-tbody" class="divide-y divide-slate-800 text-slate-200">
+              <!-- Injetado via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- 2. TAB: PEP (PRONTUÁRIO ELETRÔNICO DO PACIENTE) -->
-    <div id="content-pep" class="tab-content hidden space-y-6">
-      
-      <!-- MODAL SIMULATOR FRAME -->
-      <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-        
-        <!-- HEADER CLÍNICO SLATE ESCURO -->
-        <div class="bg-slate-900 p-4 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="p-2.5 bg-blue-900/40 text-blue-400 rounded-xl border border-blue-800/50">
-              🩺
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h2 class="text-lg font-bold text-white">PEP • Prontuário Eletrônico do Paciente</h2>
-                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">FAA #1042</span>
-              </div>
-              <div class="text-xs text-slate-400 flex flex-wrap gap-x-4 gap-y-0.5">
-                <span><strong>Paciente:</strong> Maria da Silva Santos (48 anos, Feminino)</span>
-                <span><strong>CPF:</strong> 123.456.789-00</span>
-                <span><strong>CNS:</strong> 7000.1234.5678.9012</span>
-              </div>
-            </div>
-          </div>
-
+    <!-- ======================================================== -->
+    <!-- 8. VIEW: FARMÁCIA MUNICIPAL & FEFO (ETAPA 05)            -->
+    <!-- ======================================================== -->
+    <div id="view-farmacia" class="app-view hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
           <div class="flex items-center gap-2">
-            <span class="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-300 text-amber-950 border border-amber-500">
-              ● Amarelo • Urgente (60 min)
+            <h1 class="text-2xl font-black text-white tracking-tight">Farmácia Municipal & Controle FEFO</h1>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold uppercase">
+              Etapa 05 em Execução
             </span>
           </div>
+          <p class="text-xs text-slate-400 mt-0.5">Catálogo REMUME, rastreabilidade de lotes, algoritmo FEFO (First-Expire, First-Out) e dispensação.</p>
         </div>
-
-        <!-- HUD DE SINAIS VITAIS CLÍNICO COM CORES REFINADAS -->
-        <div class="bg-slate-950/90 p-4 border-b border-slate-800/80">
-          <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
-            <span>SINAIS VITAIS COLETADOS NA TRIAGEM</span>
-            <span class="text-emerald-400 text-[10px]">Aferido há 12 min</span>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">PA (Pressão Arterial)</span>
-              <span class="text-sm font-bold text-emerald-400">130/85 mmHg</span>
-              <span class="text-[9px] text-slate-500 block">Normotenso</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">FC (Frequência Cardíaca)</span>
-              <span class="text-sm font-bold text-rose-400">82 bpm</span>
-              <span class="text-[9px] text-slate-500 block">Eucárdico</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">FR (Frequência Resp.)</span>
-              <span class="text-sm font-bold text-cyan-400">18 rpm</span>
-              <span class="text-[9px] text-slate-500 block">Eupneico</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">Temperatura</span>
-              <span class="text-sm font-bold text-amber-300">38.2 °C</span>
-              <span class="text-[9px] text-amber-400 block">Estado Febril</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">Saturação SpO2</span>
-              <span class="text-sm font-bold text-sky-400">97 %</span>
-              <span class="text-[9px] text-slate-500 block">Ar Ambiente</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">Glicemia Capilar</span>
-              <span class="text-sm font-bold text-purple-400">98 mg/dL</span>
-              <span class="text-[9px] text-slate-500 block">Em jejum</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800">
-              <span class="text-[10px] text-slate-400 block font-semibold">Escala da Dor</span>
-              <span class="text-sm font-bold text-orange-400">6 / 10</span>
-              <span class="text-[9px] text-orange-300 block">Dor Moderada</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- WORKSPACE PEP (SOAP COM BORDAS COLORIDAS) -->
-        <div class="p-5 space-y-5">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
-            <!-- SUBJETIVO (Borda Azul Céu) -->
-            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-sky-500 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase text-sky-400 tracking-wider">S • Subjetivo (Queixa & História)</span>
-                <span class="text-[10px] text-slate-400">Relato do Cidadão</span>
-              </div>
-              <textarea rows="3" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-sky-500" placeholder="História da moléstia atual, queixas referidas pelo paciente...">Paciente refere dor lombar bilateral de início súbito há 2 dias, associada a febre aferida em domicílio e náuseas discretas. Nega disúria franca.</textarea>
-            </div>
-
-            <!-- OBJETIVO (Borda Verde Esmeralda) -->
-            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-emerald-500 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase text-emerald-400 tracking-wider">O • Objetivo (Exame Físico)</span>
-                <span class="text-[10px] text-slate-400">Achados Clínicos</span>
-              </div>
-              <textarea rows="3" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-emerald-500" placeholder="Exame físico, ausculta, palpação, achados objetivos...">BEG, lúcida, orientada. Murmúrio vesicular presente bilateralmente sem ruídos adventícios. Abdome flácido, Giordano positivo à direita. Sem sinais de peritonite.</textarea>
-            </div>
-
-            <!-- AVALIAÇÃO (Borda Âmbar) -->
-            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-amber-500 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase text-amber-400 tracking-wider">A • Avaliação & Diagnósticos CID-10</span>
-                <span class="text-[10px] text-slate-400">Hipótese Diagnóstica</span>
-              </div>
-              <div class="flex flex-wrap gap-1.5 mb-2">
-                <span class="text-[11px] px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 font-semibold flex items-center gap-1">
-                  N10 - Pielonefrite aguda ✕
-                </span>
-                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                  + Adicionar CID-10
-                </span>
-              </div>
-              <textarea rows="2" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-amber-500" placeholder="Raciocínio clínico...">Quadro compatível com infecção do trato urinário alto (Pielonefrite não complicada). Sem critérios de sepse no momento.</textarea>
-            </div>
-
-            <!-- PLANO (Borda Índigo) -->
-            <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800 border-l-4 border-l-indigo-500 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase text-indigo-400 tracking-wider">P • Plano Terapêutico & Conduta</span>
-                <span class="text-[10px] text-slate-400">Encaminhamento / Prescrição</span>
-              </div>
-              <textarea rows="3" class="w-full text-xs p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 focus:ring-1 focus:ring-indigo-500" placeholder="Prescrições, orientações, solicitação de exames...">1. Coleta de Urina I + Urocultura na UBS;
-2. Prescrição de Ciprofloxacino 500mg 12/12h por 7 dias;
-3. Dipirona 500mg SN se dor ou febre;
-4. Retorno em 48h ou imediatamente se piora.</textarea>
-            </div>
-
-          </div>
-
-          <!-- FOOTER DE FINALIZAÇÃO & ASSINATURA DIGITAL -->
-          <div class="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-2 text-xs text-slate-400">
-              <span class="p-1 rounded bg-emerald-500/20 text-emerald-400">🛡️</span>
-              <span><strong>Assinatura Digital:</strong> Dr. Rodrigo Santana • CRM/SP 189420 (Certificado ICP-Brasil)</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <button class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
-                Salvar Rascunho
-              </button>
-              <button onclick="alert('Consulta finalizada com sucesso no PEP! Evolução clínica salva e assinada digitalmente.')" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-blue-600/20">
-                <span>Finalizar Atendimento & Assinar PEP</span>
-              </button>
-            </div>
-          </div>
-
+        <div class="flex items-center gap-2">
+          <button onclick="alert('Modal de Entrada de Novo Lote acionado!')" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span>+ Entrada de Lote (NF)</span>
+          </button>
+          <button onclick="abrirModalDispensacao()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition">
+            <span>💊 Dispensar Medicamento</span>
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- 3. TAB: PROTOCOLO MANCHESTER DE TRIAGEM -->
-    <div id="content-manchester" class="tab-content hidden space-y-6">
-      <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-6">
-        <div>
-          <h2 class="text-xl font-bold text-white">Classificação de Risco no Protocolo Manchester</h2>
-          <p class="text-xs text-slate-400 mt-1">
-            Novo padrão de cores com alta legibilidade clínica. Cada nível possui tempo alvo estrito de espera para o atendimento médico na rede municipal de urgência e UBS.
-          </p>
+      <!-- RESUMO DO ESTOQUE E ALERTAS FEFO -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-emerald-500">
+          <span class="text-xs text-slate-400 block font-semibold">Itens na REMUME</span>
+          <span class="text-2xl font-black text-white">186 Itens</span>
+          <span class="text-[11px] text-emerald-400 block mt-1">100% Padronizados SUS</span>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
-          
-          <div class="p-4 rounded-xl bg-red-950/40 border border-red-700/60 flex flex-col justify-between">
-            <div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-red-600 text-white">
-                VERMELHO
-              </span>
-              <h3 class="text-base font-bold text-red-200 mt-2">Emergência</h3>
-              <p class="text-xs text-red-300/80 mt-1">Risco iminente de morte. Parada cardiorrespiratória, politrauma grave, choque.</p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-red-800/60 font-mono text-sm font-black text-red-400">
-              0 min (Imediato)
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-orange-950/40 border border-orange-700/60 flex flex-col justify-between">
-            <div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-orange-600 text-white">
-                LARANJA
-              </span>
-              <h3 class="text-base font-bold text-orange-200 mt-2">Muito Urgente</h3>
-              <p class="text-xs text-orange-300/80 mt-1">Risco grave. Dor torácica severa, crise convulsiva recente, alteração aguda de consciência.</p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-orange-800/60 font-mono text-sm font-black text-orange-400">
-              10 minutos
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-amber-950/40 border border-amber-600/70 flex flex-col justify-between">
-            <div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-amber-300 text-amber-950 border border-amber-500">
-                AMARELO
-              </span>
-              <h3 class="text-base font-bold text-amber-200 mt-2">Urgente</h3>
-              <p class="text-xs text-amber-300/80 mt-1">Potencial gravidade. Febre alta sem resposta, vômitos incoercíveis, dor moderada a severa.</p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-amber-800/60 font-mono text-sm font-black text-amber-300">
-              60 minutos
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-700/60 flex flex-col justify-between">
-            <div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-600 text-white">
-                VERDE
-              </span>
-              <h3 class="text-base font-bold text-emerald-200 mt-2">Pouco Urgente</h3>
-              <p class="text-xs text-emerald-300/80 mt-1">Condição estável. Sintomas leves, ferimentos superficiais, resfriado comum, queixas subagudas.</p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-emerald-800/60 font-mono text-sm font-black text-emerald-400">
-              120 minutos
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-blue-950/40 border border-blue-700/60 flex flex-col justify-between">
-            <div>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-blue-600 text-white">
-                AZUL
-              </span>
-              <h3 class="text-base font-bold text-blue-200 mt-2">Não Urgente</h3>
-              <p class="text-xs text-blue-300/80 mt-1">Queixas crônicas, troca de receita, atestados, orientações preventivas ou vacinação.</p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-blue-800/60 font-mono text-sm font-black text-blue-400">
-              240 minutos
-            </div>
-          </div>
-
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-blue-500">
+          <span class="text-xs text-slate-400 block font-semibold">Lotes em Estoque</span>
+          <span class="text-2xl font-black text-white">412 Lotes</span>
+          <span class="text-[11px] text-slate-400 block mt-1">Algoritmo FEFO Ativo</span>
         </div>
-
-      </div>
-    </div>
-
-    <!-- 4. TAB: ACOLHIMENTO & FAA -->
-    <div id="content-acolhimento" class="tab-content hidden space-y-6">
-      <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl max-w-3xl mx-auto space-y-5">
-        <div class="flex items-center gap-3">
-          <div class="p-2.5 bg-sky-900/40 text-sky-400 rounded-xl border border-sky-800/50">
-            📋
-          </div>
-          <div>
-            <h2 class="text-lg font-bold text-white">Recepção & Acolhimento (Abertura de FAA)</h2>
-            <p class="text-xs text-slate-400">Cadastro de demanda espontânea e emissão da senha para o totem da recepção.</p>
-          </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-amber-500">
+          <span class="text-xs text-amber-300 block font-semibold">Vencimento Próximo (&lt; 90 dias)</span>
+          <span class="text-2xl font-black text-amber-300">14 Lotes</span>
+          <span class="text-[11px] text-amber-400 block mt-1">Priorizados para consumo</span>
         </div>
-
-        <div class="space-y-4">
-          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
-            <span class="text-xs font-semibold text-slate-300">Cidadão Selecionado:</span>
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="font-bold text-white text-sm">MARIA DA SILVA SANTOS</div>
-                <div class="text-xs text-slate-400">CPF: 123.456.789-00 • CNS: 7000.1234.5678.9012</div>
-              </div>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">Cadastrado</span>
-            </div>
-          </div>
-
-          <div>
-            <label class="text-xs font-semibold text-slate-300 block mb-2">Modalidade do Atendimento:</label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <div class="p-3 rounded-lg border border-l-4 border-l-sky-500 bg-slate-900 border-slate-800 text-xs">
-                <span class="font-bold text-white block">Demanda Espontânea</span>
-                <span class="text-[11px] text-slate-400">Queixa aguda ou consulta do dia</span>
-              </div>
-              <div class="p-3 rounded-lg border border-l-4 border-l-rose-600 bg-slate-900 border-slate-800 text-xs">
-                <span class="font-bold text-white block">Urgência / Emergência</span>
-                <span class="text-[11px] text-slate-400">Atendimento prioritário imediato</span>
-              </div>
-              <div class="p-3 rounded-lg border border-l-4 border-l-emerald-500 bg-slate-900 border-slate-800 text-xs">
-                <span class="font-bold text-white block">Consulta Agendada</span>
-                <span class="text-[11px] text-slate-400">Retorno ou agendamento prévio</span>
-              </div>
-              <div class="p-3 rounded-lg border border-l-4 border-l-amber-500 bg-slate-900 border-slate-800 text-xs">
-                <span class="font-bold text-white block">Procedimento / Curativo</span>
-                <span class="text-[11px] text-slate-400">Injeção, curativo, sutura</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label class="text-xs font-semibold text-slate-300 block mb-1">Queixa Principal Relatada:</label>
-            <textarea rows="2" class="w-full text-xs p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-200" readonly>Febre há 2 dias, tosse produtiva e dor de cabeça intensa.</textarea>
-          </div>
-
-          <div class="p-3 rounded-lg bg-amber-950/30 border border-amber-800 text-xs text-amber-200">
-            🔒 <strong>Atendimento Sigiloso / Restrito:</strong> Suporte a proteção de identidade em casos de notificação compulsória restrita no painel de chamada.
-          </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-red-500">
+          <span class="text-xs text-red-400 block font-semibold">Lotes Expirados / Bloqueados</span>
+          <span class="text-2xl font-black text-red-400">0 Lotes</span>
+          <span class="text-[11px] text-slate-400 block mt-1">Bloqueio automático ativo</span>
         </div>
       </div>
-    </div>
 
-    <!-- 5. TAB: MÓDULOS & ARQUITETURA -->
-    <div id="content-modulos" class="tab-content hidden space-y-6">
-      <div class="p-6 bg-slate-950 border border-slate-800 rounded-2xl space-y-6">
-        <div>
-          <h2 class="text-xl font-bold text-white">Status de Implementação & Roadmap do Projeto</h2>
-          <p class="text-xs text-slate-400 mt-1">
-            Refatoração do ecossistema municipal desktop legado (Delphi) para arquitetura web unificada.
-          </p>
+      <!-- TABELA DO CATÁLOGO REMUME & LOTES FEFO -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden space-y-3 p-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">Catálogo REMUME & Posição de Lotes (FEFO)</h3>
+          <input type="text" placeholder="Buscar princípio ativo ou CATMAT..." class="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white w-64">
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          
-          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Etapa 00: Setup & Multi-tenant Foundation</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
-            </div>
-            <p class="text-xs text-slate-400">AdonisJS 6, PostgreSQL/SQLite, Inertia React 19, TypeScript estrito, Shadcn UI, Design System clínico.</p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Etapa 01: Cidadãos, Famílias & Prontuário Único</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
-            </div>
-            <p class="text-xs text-slate-400">Cadastro unificado de munícipes com CPF, CNS, NIS, georreferenciamento e árvore de parentesco familiar.</p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Etapa 02: Autenticação, RBAC & Território</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
-            </div>
-            <p class="text-xs text-slate-400">Perfis de acesso granulares (Médico, Enfermeiro, Atendente, Assistente Social), controle por Unidade de Saúde (CNES).</p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-white">Etapa 03: CadÚnico & Assistência Social</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CONCLUÍDO</span>
-            </div>
-            <p class="text-xs text-slate-400">Ficha social, composição de renda per capita, benefícios continuados (BPC, Bolsa Família) e intervenções sociofamiliares.</p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/40 space-y-2 shadow-lg shadow-cyan-950/30">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-cyan-300">Etapa 04: Atendimento UBS, Triagem & PEP</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">CONCLUÍDO</span>
-            </div>
-            <p class="text-xs text-slate-400">Ficha de Atendimento Ambulatorial (FAA), Protocolo Manchester com tempos-alvo, Totem de chamada, Prontuário Eletrônico SOAP e CID-10.</p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2 opacity-75">
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-sm text-slate-300">Etapas 05 a 08: Farmácia, Agendamentos & e-SUS</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-700 text-slate-300">PLANEJADO</span>
-            </div>
-            <p class="text-xs text-slate-400">Dispensação de medicamentos com controle de lote/validade, agenda médica com regulação e exportação XML/Thrift e-SUS APS.</p>
-          </div>
-
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950/80 text-slate-400 border-b border-slate-800 uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="py-2.5 px-3">Princípio Ativo & Dosagem</th>
+                <th class="py-2.5 px-3">Forma / Via</th>
+                <th class="py-2.5 px-3">CATMAT</th>
+                <th class="py-2.5 px-3">Lote FEFO Sugerido</th>
+                <th class="py-2.5 px-3">Validade</th>
+                <th class="py-2.5 px-3">Saldo Total</th>
+                <th class="py-2.5 px-3 text-right">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="farmacia-tbody" class="divide-y divide-slate-800 text-slate-200">
+              <!-- Injetado via JS -->
+            </tbody>
+          </table>
         </div>
       </div>
+
     </div>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-slate-950 border-t border-slate-800 py-6 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        © 2026 <strong>Prefeitura Municipal</strong> • Sistema de Gestão em Saúde Pública e Assistência Social.
+  <!-- ======================================================== -->
+  <!-- MODAL: PRONTUÁRIO ELETRÔNICO DO PACIENTE (PEP)          -->
+  <!-- ======================================================== -->
+  <div id="modal-pep" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-2 sm:p-4 overflow-y-auto">
+    <div class="bg-slate-950 border border-slate-800 rounded-2xl w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- HEADER PEP -->
+      <div class="bg-slate-900 p-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-blue-900/40 text-blue-400 rounded-xl border border-blue-800">
+            🩺
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base font-bold text-white">PEP • Prontuário Eletrônico do Paciente</h2>
+              <span id="pep-faa-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">FAA #1042</span>
+            </div>
+            <div id="pep-paciente-sub" class="text-xs text-slate-400">
+              Maria da Silva Santos (48 anos, Feminino) • CPF: 123.456.789-00
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span id="pep-urgencia-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-300 text-amber-950 border border-amber-500">
+            ● AMARELO • URGENTE
+          </span>
+          <button onclick="fecharModalPEP()" class="text-slate-400 hover:text-white text-lg p-1">✕</button>
+        </div>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="https://github.com/RodrigoS1989/prefeitura-web" class="hover:text-cyan-400 transition">Repositório GitHub</a>
+
+      <!-- SINAIS VITAIS HUD -->
+      <div class="bg-slate-950/90 p-4 border-b border-slate-800/80">
+        <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-2">SINAIS VITAIS NA TRIAGEM</div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">PA Arterial</span>
+            <span class="text-sm font-bold text-emerald-400">130/85 mmHg</span>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">FC Cardíaca</span>
+            <span class="text-sm font-bold text-rose-400">82 bpm</span>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">Temperatura</span>
+            <span class="text-sm font-bold text-amber-300">38.2 °C</span>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">SpO2 Saturação</span>
+            <span class="text-sm font-bold text-sky-400">97 %</span>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">Glicemia</span>
+            <span class="text-sm font-bold text-purple-400">98 mg/dL</span>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">FR Respiratória</span>
+            <span class="text-sm font-bold text-cyan-400">18 rpm</span>
+          </div>
+          <div class="p-2 rounded bg-slate-900 border border-slate-800">
+            <span class="text-[9px] text-slate-400 block font-semibold">Dor (0-10)</span>
+            <span class="text-sm font-bold text-orange-400">6 / 10</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CORPO DO PEP (SOAP COM BORDAS COLORIDAS) -->
+      <div class="p-4 overflow-y-auto space-y-4 flex-1">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- SUBJETIVO (Borda Azul Céu) -->
+          <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-sky-500 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-sky-400 uppercase">S • Subjetivo (História & Queixas)</span>
+              <span class="text-[10px] text-slate-500">Relato</span>
+            </div>
+            <textarea id="pep-subjetivo" rows="3" class="w-full p-2.5 rounded bg-slate-950 border border-slate-800 text-xs text-slate-200">Paciente refere dor lombar bilateral de início súbito há 2 dias, associada a febre e náuseas discretas.</textarea>
+          </div>
+
+          <!-- OBJETIVO (Borda Verde Esmeralda) -->
+          <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-emerald-500 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-emerald-400 uppercase">O • Objetivo (Exame Físico)</span>
+              <span class="text-[10px] text-slate-500">Achados</span>
+            </div>
+            <textarea id="pep-objetivo" rows="3" class="w-full p-2.5 rounded bg-slate-950 border border-slate-800 text-xs text-slate-200">BEG, eupneica. Giordano positivo à direita. Abdome flácido, indolor à palpação profunda.</textarea>
+          </div>
+
+          <!-- AVALIAÇÃO (Borda Âmbar) -->
+          <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-amber-500 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-amber-300 uppercase">A • Avaliação & Diagnósticos CID-10</span>
+              <span class="text-[10px] text-slate-500">Hipótese</span>
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[11px] font-bold">
+                N10 - Pielonefrite aguda ✕
+              </span>
+            </div>
+            <textarea id="pep-avaliacao" rows="2" class="w-full p-2.5 rounded bg-slate-950 border border-slate-800 text-xs text-slate-200">Quadro compatível com ITU alta não complicada.</textarea>
+          </div>
+
+          <!-- PLANO (Borda Índigo) -->
+          <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 border-l-4 border-l-indigo-500 space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-indigo-400 uppercase">P • Plano & Prescrição Eletrônica</span>
+              <span class="text-[10px] text-slate-500">Conduta</span>
+            </div>
+            <textarea id="pep-plano" rows="3" class="w-full p-2.5 rounded bg-slate-950 border border-slate-800 text-xs text-slate-200">1. Ciprofloxacino 500mg 12/12h por 7 dias;
+2. Dipirona 500mg SN se dor ou febre;
+3. Exames: Urina I + Urocultura na UBS.</textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FOOTER PEP -->
+      <div class="bg-slate-900 p-4 border-t border-slate-800 flex items-center justify-between">
+        <div class="text-xs text-slate-400 flex items-center gap-2">
+          <span>🛡️</span>
+          <span>Assinatura Digital ICP-Brasil: <strong>Dr. Rodrigo Santana (CRM/SP 189420)</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="fecharModalPEP()" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold">
+            Cancelar
+          </button>
+          <button onclick="salvarPEP()" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow">
+            Finalizar & Assinar Consulta
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ACOLHIMENTO & ABERTURA DE FAA                      -->
+  <!-- ======================================================== -->
+  <div id="modal-acolhimento" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-950 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+      <div class="bg-slate-900 p-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">📋</span>
+          <div>
+            <h3 class="text-base font-bold text-white">Recepção & Acolhimento (Abertura de FAA)</h3>
+            <p class="text-xs text-slate-400">Emissão de senha para o Totem e abertura de ficha de atendimento.</p>
+          </div>
+        </div>
+        <button onclick="fecharModalAcolhimento()" class="text-slate-400 hover:text-white text-lg">✕</button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1">Selecionar Cidadão:</label>
+          <select id="acolhimento-cidadao" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white">
+            <option value="1">Maria da Silva Santos (CPF: 123.456.789-00)</option>
+            <option value="2">João Pedro de Souza (CPF: 234.567.890-11)</option>
+            <option value="3">Ana Clara Ferreira (CPF: 345.678.901-22)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1.5">Modalidade do Atendimento:</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-lg border border-l-4 border-l-sky-500 bg-slate-900 border-slate-800 cursor-pointer">
+              <strong class="text-white block">Demanda Espontânea</strong>
+              <span class="text-[10px] text-slate-400">Consulta do dia</span>
+            </div>
+            <div class="p-2.5 rounded-lg border border-l-4 border-l-rose-600 bg-slate-900 border-slate-800 cursor-pointer">
+              <strong class="text-white block">Urgência / Emergência</strong>
+              <span class="text-[10px] text-slate-400">Prioridade imediata</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1">Queixa Principal:</label>
+          <textarea id="acolhimento-queixa" rows="2" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white" placeholder="Relato do paciente na recepção..."></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <button onclick="fecharModalAcolhimento()" class="px-3.5 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold">Cancelar</button>
+          <button onclick="confirmarAcolhimento()" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow">Emitir Senha no Totem</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: NOVO CIDADÃO (CADÚNICO/SUS)                       -->
+  <!-- ======================================================== -->
+  <div id="modal-novo-cidadao" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-950 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+      <div class="bg-slate-900 p-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">👥</span>
+          <div>
+            <h3 class="text-base font-bold text-white">Cadastrar Novo Cidadão</h3>
+            <p class="text-xs text-slate-400">Prontuário único, validação de CPF e integração CadÚnico/SUS.</p>
+          </div>
+        </div>
+        <button onclick="fecharModalNovoCidadao()" class="text-slate-400 hover:text-white text-lg">✕</button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1">Nome Completo *:</label>
+          <input type="text" id="novo-nome" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white" placeholder="Ex: Lucas Gabriel Moreira">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="text-slate-300 block mb-1">CPF *:</label>
+            <input type="text" id="novo-cpf" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white font-mono" placeholder="000.000.000-00">
+          </div>
+          <div>
+            <label class="text-slate-300 block mb-1">Cartão SUS (CNS):</label>
+            <input type="text" id="novo-cns" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white font-mono" placeholder="7000.0000.0000.0000">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="text-slate-300 block mb-1">Bairro de Residência:</label>
+            <select id="novo-bairro" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white">
+              <option value="Centro Histórico">Centro Histórico</option>
+              <option value="Jardim das Flores">Jardim das Flores</option>
+              <option value="Vila Esperança">Vila Esperança</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-slate-300 block mb-1">Data de Nascimento:</label>
+            <input type="date" id="novo-nasc" class="w-full p-2.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white">
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <button onclick="fecharModalNovoCidadao()" class="px-3.5 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold">Cancelar</button>
+          <button onclick="salvarNovoCidadao()" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow">Salvar no Prontuário</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 border-t border-slate-800 py-4 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>
+        © 2026 <strong>Prefeitura Municipal</strong> • Gestão Pública em Saúde & Cidadania
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/RodrigoS1989/prefeitura-web" target="_blank" class="text-cyan-400 hover:underline">Repositório no GitHub</a>
         <span>•</span>
-        <span>Hospedado no GitHub Pages</span>
+        <span>Hospedado no GitHub Pages (SPA Completa)</span>
       </div>
     </div>
   </footer>
 
-  <!-- SCRIPT INTERATIVO -->
+  <!-- SISTEMA CLIENT-SIDE INTEGRADO -->
   <script>
-    // Audio Context para tocar o sino Ding-Dong de chamada
+    // BASE DE DADOS EM MEMÓRIA
+    const cidadaosData = [
+      { id: 1, nome: 'Maria da Silva Santos', cpf: '123.456.789-00', cns: '7000.1234.5678.9012', bairro: 'Centro Histórico', cadunico: 'NIS 160.4429.112-9' },
+      { id: 2, nome: 'João Pedro de Souza', cpf: '234.567.890-11', cns: '7000.9876.5432.1098', bairro: 'Jardim das Flores', cadunico: 'NIS 161.8841.002-3' },
+      { id: 3, nome: 'Ana Clara Ferreira', cpf: '345.678.901-22', cns: '7000.5544.3322.1100', bairro: 'Vila Esperança', cadunico: 'Não Cadastrado' },
+      { id: 4, nome: 'Carlos Eduardo Lima', cpf: '456.789.012-33', cns: '7000.8877.6655.4433', bairro: 'Centro Histórico', cadunico: 'NIS 162.7712.990-1' },
+      { id: 5, nome: 'Beatriz Gonçalves Dias', cpf: '567.890.123-44', cns: '7000.3322.1100.9988', bairro: 'Jardim das Flores', cadunico: 'NIS 163.9920.441-5' }
+    ];
+
+    const atendimentosData = [
+      { id: 1042, senha: 'C-042', cidadao: 'Maria da Silva Santos', prioridade: 'AMARELO', queixa: 'Dor lombar aguda, febre e náuseas', status: 'EM_ATENDIMENTO_MEDICO' },
+      { id: 1041, senha: 'C-041', cidadao: 'João Pedro de Souza', prioridade: 'VERDE', queixa: 'Resfriado comum e coriza há 3 dias', status: 'AGUARDANDO_MEDICO' },
+      { id: 1040, senha: 'C-040', cidadao: 'Ana Clara Ferreira', prioridade: 'LARANJA', queixa: 'Dor precordial em queimação e sudorese', status: 'AGUARDANDO_MEDICO' },
+      { id: 1039, senha: 'C-039', cidadao: 'Carlos Eduardo Lima', prioridade: 'AZUL', queixa: 'Troca de receita de anti-hipertensivo', status: 'CONCLUIDO' }
+    ];
+
+    const farmaciaData = [
+      { id: 1, principio: 'Dipirona Sódica 500mg', forma: 'Comprimido / Oral', catmat: 'BR0289142', lote: 'LT-2026A1', validade: '15/06/2026', saldo: 14200, dias: 50 },
+      { id: 2, principio: 'Amoxicilina + Clavulanato 500/125mg', forma: 'Comprimido / Oral', catmat: 'BR0291040', lote: 'LT-2026B4', validade: '20/12/2026', saldo: 4800, dias: 240 },
+      { id: 3, principio: 'Losartana Potássica 50mg', forma: 'Comprimido / Oral', catmat: 'BR0274190', lote: 'LT-2026C2', validade: '10/08/2026', saldo: 28000, dias: 110 },
+      { id: 4, principio: 'Metformina Cloridrato 850mg', forma: 'Comprimido / Oral', catmat: 'BR0261184', lote: 'LT-2026D9', validade: '25/07/2026', saldo: 19500, dias: 90 },
+      { id: 5, principio: 'Ciprofloxacino 500mg', forma: 'Comprimido / Oral', catmat: 'BR0259812', lote: 'LT-2026E1', validade: '30/11/2026', saldo: 6200, dias: 220 }
+    ];
+
+    // CHIME AUDIO SINTÉTICO (DING-DONG)
     function playChime() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return;
         const ctx = new AudioContext();
         
-        // Tom 1
         const osc1 = ctx.createOscillator();
         const gain1 = ctx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
+        osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
         gain1.gain.setValueAtTime(0.3, ctx.currentTime);
         gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
         osc1.connect(gain1);
@@ -637,102 +1144,293 @@
         osc1.start(ctx.currentTime);
         osc1.stop(ctx.currentTime + 0.8);
 
-        // Tom 2
         const osc2 = ctx.createOscillator();
         const gain2 = ctx.createGain();
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(523.25, ctx.currentTime + 0.4); // C5
+        osc2.frequency.setValueAtTime(523.25, ctx.currentTime + 0.4);
         gain2.gain.setValueAtTime(0.3, ctx.currentTime + 0.4);
         gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
         osc2.connect(gain2);
         gain2.connect(ctx.destination);
         osc2.start(ctx.currentTime + 0.4);
         osc2.stop(ctx.currentTime + 1.4);
-      } catch (e) {
-        console.warn('AudioContext not allowed or not supported yet');
-      }
+      } catch (e) {}
     }
 
-    // Gerador de senhas e chamada
-    const nomes = [
-      'MARIA DA SILVA SANTOS',
-      'JOÃO PEDRO DE SOUZA',
-      'ANA CLARA FERREIRA',
-      'CARLOS EDUARDO LIMA',
-      'BEATRIZ GONÇALVES DIAS',
-      'LUCAS MENDES RIBEIRO',
-      'JULIA ALMEIDA COSTA',
-      'PAULO ROBERTO NOGUEIRA'
-    ];
+    // NAVEGAÇÃO DE ROTAS CLIENT-SIDE
+    function navigate(viewName) {
+      document.querySelectorAll('.app-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+        btn.classList.add('text-slate-400');
+      });
 
-    let contadorSenha = 43;
+      const targetView = document.getElementById('view-' + viewName);
+      const targetNav = document.getElementById('nav-' + viewName);
 
-    function chamarProxima(cor) {
+      if (targetView) targetView.classList.remove('hidden');
+      if (targetNav) {
+        targetNav.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+        targetNav.classList.remove('text-slate-400');
+      }
+
+      window.location.hash = viewName;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // RENDERIZAR TABELAS
+    function renderCidadaos(lista) {
+      const tbody = document.getElementById('cidadaos-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = lista.map(c => `
+        <tr class="hover:bg-slate-800/40 transition">
+          <td class="py-3 px-4 font-bold text-white">${c.nome}</td>
+          <td class="py-3 px-4 font-mono text-slate-300">${c.cpf}</td>
+          <td class="py-3 px-4 font-mono text-cyan-400">${c.cns}</td>
+          <td class="py-3 px-4">${c.bairro}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded text-[10px] font-semibold ${c.cadunico.includes('NIS') ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-400'}">
+              ${c.cadunico}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-right">
+            <button onclick="verPerfilCidadao(${c.id})" class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition">
+              Perfil 360°
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAtendimentos() {
+      const dashTbody = document.getElementById('dashboard-atendimentos-tbody');
+      const filaTbody = document.getElementById('atendimentos-fila-tbody');
+
+      const html = atendimentosData.map(a => {
+        let badgeCor = '';
+        if (a.prioridade === 'VERMELHO') badgeCor = 'bg-red-600 text-white';
+        else if (a.prioridade === 'LARANJA') badgeCor = 'bg-orange-600 text-white';
+        else if (a.prioridade === 'AMARELO') badgeCor = 'bg-amber-300 text-amber-950 border border-amber-500 font-black';
+        else if (a.prioridade === 'VERDE') badgeCor = 'bg-emerald-600 text-white';
+        else badgeCor = 'bg-blue-600 text-white';
+
+        let badgeStatus = a.status === 'EM_ATENDIMENTO_MEDICO' ? 'text-cyan-400 font-bold' : (a.status === 'CONCLUIDO' ? 'text-slate-400' : 'text-amber-400 font-bold');
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2.5 font-mono font-bold text-cyan-400">${a.senha}</td>
+            <td class="py-2.5 font-bold text-white">${a.cidadao}</td>
+            <td class="py-2.5">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${badgeCor}">
+                ● ${a.prioridade}
+              </span>
+            </td>
+            <td class="py-2.5 text-slate-300 truncate max-w-[180px]">${a.queixa}</td>
+            <td class="py-2.5 text-xs ${badgeStatus}">${a.status.replace(/_/g, ' ')}</td>
+            <td class="py-2.5 text-right">
+              <button onclick="abrirModalPEP(atendimentosData.find(x => x.id === ${a.id}))" class="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs">
+                PEP
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (dashTbody) dashTbody.innerHTML = html;
+      if (filaTbody) filaTbody.innerHTML = html;
+    }
+
+    function renderFarmacia() {
+      const tbody = document.getElementById('farmacia-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = farmaciaData.map(f => {
+        let corValidade = f.dias < 60 ? 'text-red-400 font-bold' : (f.dias < 120 ? 'text-amber-300 font-bold' : 'text-emerald-400');
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2.5 px-3 font-bold text-white">${f.principio}</td>
+            <td class="py-2.5 px-3 text-slate-300">${f.forma}</td>
+            <td class="py-2.5 px-3 font-mono text-cyan-400">${f.catmat}</td>
+            <td class="py-2.5 px-3 font-mono text-white font-bold">${f.lote}</td>
+            <td class="py-2.5 px-3 ${corValidade}">${f.validade} (${f.dias}d)</td>
+            <td class="py-2.5 px-3 font-mono font-bold text-white">${f.saldo.toLocaleString()} un</td>
+            <td class="py-2.5 px-3 text-right">
+              <button onclick="alert('Dispensando lote FEFO ' + '${f.lote}' + ' do medicamento ' + '${f.principio}')" class="px-2 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs">
+                Baixa FEFO
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // FILTROS
+    function filtrarCidadaos(query) {
+      const q = query.toLowerCase().trim();
+      const filtrados = cidadaosData.filter(c => 
+        c.nome.toLowerCase().includes(q) || 
+        c.cpf.includes(q) || 
+        c.cns.includes(q) ||
+        c.cadunico.toLowerCase().includes(q)
+      );
+      renderCidadaos(filtrados);
+    }
+
+    // MODAL HANDLERS
+    function abrirModalPEP(atendimento) {
+      if (!atendimento) atendimento = atendimentosData[0];
+      document.getElementById('pep-faa-badge').innerText = 'FAA #' + atendimento.id;
+      document.getElementById('pep-paciente-sub').innerText = atendimento.cidadao + ' • ' + atendimento.queixa;
+      
+      const badge = document.getElementById('pep-urgencia-badge');
+      if (atendimento.prioridade === 'VERMELHO') badge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-red-600 text-white';
+      else if (atendimento.prioridade === 'LARANJA') badge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-orange-600 text-white';
+      else if (atendimento.prioridade === 'AMARELO') badge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-300 text-amber-950 border border-amber-500';
+      else badge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-600 text-white';
+      badge.innerText = '● ' + atendimento.prioridade + ' • URGÊNCIA';
+
+      document.getElementById('modal-pep').classList.remove('hidden');
+      document.getElementById('modal-pep').classList.add('flex');
+    }
+
+    function fecharModalPEP() {
+      document.getElementById('modal-pep').classList.add('hidden');
+      document.getElementById('modal-pep').classList.remove('flex');
+    }
+
+    function salvarPEP() {
+      alert('✅ Consulta finalizada com sucesso no PEP!\nEvolução clínica SOAP gravada e assinada com certificado digital ICP-Brasil.');
+      fecharModalPEP();
+    }
+
+    function abrirModalAcolhimento() {
+      document.getElementById('modal-acolhimento').classList.remove('hidden');
+      document.getElementById('modal-acolhimento').classList.add('flex');
+    }
+
+    function fecharModalAcolhimento() {
+      document.getElementById('modal-acolhimento').classList.add('hidden');
+      document.getElementById('modal-acolhimento').classList.remove('flex');
+    }
+
+    function confirmarAcolhimento() {
+      const queixa = document.getElementById('acolhimento-queixa').value.trim() || 'Queixa geral não especificada';
+      const novoId = 1043 + atendimentosData.length;
+      const novaSenha = 'C-0' + (43 + atendimentosData.length);
+      
+      atendimentosData.unshift({
+        id: novoId,
+        senha: novaSenha,
+        cidadao: 'Maria da Silva Santos',
+        prioridade: 'AMARELO',
+        queixa: queixa,
+        status: 'AGUARDANDO_TRIAGEM'
+      });
+
+      renderAtendimentos();
+      fecharModalAcolhimento();
+      alert('✅ Senha ' + novaSenha + ' gerada com sucesso e enviada ao Totem!');
+      chamarProximaTotem('amarelo', novaSenha, 'Maria da Silva Santos');
+    }
+
+    function abrirModalNovoCidadao() {
+      document.getElementById('modal-novo-cidadao').classList.remove('hidden');
+      document.getElementById('modal-novo-cidadao').classList.add('flex');
+    }
+
+    function fecharModalNovoCidadao() {
+      document.getElementById('modal-novo-cidadao').classList.add('hidden');
+      document.getElementById('modal-novo-cidadao').classList.remove('flex');
+    }
+
+    function salvarNovoCidadao() {
+      const nome = document.getElementById('novo-nome').value.trim();
+      const cpf = document.getElementById('novo-cpf').value.trim();
+      const cns = document.getElementById('novo-cns').value.trim() || '7000.0000.1111.2222';
+      const bairro = document.getElementById('novo-bairro').value;
+
+      if (!nome || !cpf) {
+        alert('Por favor, informe Nome Completo e CPF.');
+        return;
+      }
+
+      cidadaosData.unshift({
+        id: cidadaosData.length + 1,
+        nome: nome,
+        cpf: cpf,
+        cns: cns,
+        bairro: bairro,
+        cadunico: 'Em Análise CadÚnico'
+      });
+
+      renderCidadaos(cidadaosData);
+      document.getElementById('kpi-cidadaos').innerText = (1240 + cidadaosData.length).toString();
+      fecharModalNovoCidadao();
+      alert('✅ Cidadão ' + nome + ' cadastrado com sucesso no Prontuário Único!');
+    }
+
+    function verPerfilCidadao(id) {
+      const c = cidadaosData.find(x => x.id === id);
+      if (!c) return;
+      alert('📋 Perfil 360° do Cidadão (Modal):\n\nNome: ' + c.nome + '\nCPF: ' + c.cpf + '\nCNS: ' + c.cns + '\nTerritório: ' + c.bairro + '\nSituação CadÚnico: ' + c.cadunico + '\n\n✓ Histórico de Vacinação: 4 doses registradas\n✓ Histórico Clínico: Hipertensão Essencial (I10)');
+    }
+
+    function abrirModalDispensacao() {
+      alert('💊 Módulo de Dispensação da Farmácia Municipal (Etapa 05):\n\nConferência de Receita Médica ativa.\nO sistema aloca automaticamente o Lote mais próximo do vencimento através do algoritmo FEFO.');
+    }
+
+    // CHAMADA NO TOTEM
+    function chamarProximaTotem(cor, senhaCustom, pacienteCustom) {
       playChime();
-      const numSenha = 'C-0' + contadorSenha++;
-      const nomeSorteado = nomes[Math.floor(Math.random() * nomes.length)];
-      const consultorioSel = document.getElementById('ctrl-consultorio').value;
+      const senha = senhaCustom || 'C-043';
+      const paciente = pacienteCustom || 'JOÃO PEDRO DE SOUZA';
 
-      const tvSenha = document.getElementById('tv-senha');
-      const tvPaciente = document.getElementById('tv-paciente');
-      const tvConsultorio = document.getElementById('tv-consultorio');
-      const tvBadge = document.getElementById('tv-badge');
+      const tvSenha = document.getElementById('totem-senha');
+      const tvPaciente = document.getElementById('totem-paciente');
+      const tvBadge = document.getElementById('totem-badge');
 
-      // Atualiza valores
-      tvSenha.innerText = numSenha;
-      tvPaciente.innerText = nomeSorteado;
-      tvConsultorio.innerText = consultorioSel;
+      if (tvSenha) tvSenha.innerText = senha;
+      if (tvPaciente) tvPaciente.innerText = paciente;
 
-      // Configuração de Badge de Cor com alto contraste
       if (cor === 'vermelho') {
-        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-red-600 text-white shadow-md';
+        tvBadge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-red-600 text-white shadow';
         tvBadge.innerText = '● VERMELHO • EMERGÊNCIA (0 MIN)';
       } else if (cor === 'laranja') {
-        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-orange-600 text-white shadow-md';
+        tvBadge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-orange-600 text-white shadow';
         tvBadge.innerText = '● LARANJA • MUITO URGENTE (10 MIN)';
       } else if (cor === 'amarelo') {
-        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-amber-300 text-amber-950 border border-amber-500 shadow-md';
+        tvBadge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-300 text-amber-950 border border-amber-500 shadow';
         tvBadge.innerText = '● AMARELO • URGENTE (60 MIN)';
       } else {
-        tvBadge.className = 'px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-600 text-white shadow-md';
+        tvBadge.className = 'px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-600 text-white shadow';
         tvBadge.innerText = '● VERDE • POUCO URGENTE (120 MIN)';
       }
-
-      // Pisca a tela
-      tvSenha.classList.add('scale-110', 'text-white');
-      setTimeout(() => {
-        tvSenha.classList.remove('scale-110', 'text-white');
-      }, 500);
     }
 
-    // Relógio em tempo real
-    function updateClock() {
+    function alterarUnidade(id) {
+      alert('Contexto de Unidade de Saúde alterado com sucesso! Dados sincronizados para a Unidade ID ' + id);
+    }
+
+    // RELÓGIO
+    function updateTotemClock() {
       const now = new Date();
       const h = String(now.getHours()).padStart(2, '0');
       const m = String(now.getMinutes()).padStart(2, '0');
       const s = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('clock').innerText = `${h}:${m}:${s}`;
+      const el = document.getElementById('totem-clock');
+      if (el) el.innerText = `${h}:${m}:${s}`;
     }
-    setInterval(updateClock, 1000);
-    updateClock();
+    setInterval(updateTotemClock, 1000);
+    updateTotemClock();
 
-    // Navegação de abas
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active', 'border-cyan-500', 'text-cyan-400');
-        btn.classList.add('border-transparent', 'text-slate-400');
-      });
+    // INICIALIZAÇÃO
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCidadaos(cidadaosData);
+      renderAtendimentos();
+      renderFarmacia();
 
-      const targetContent = document.getElementById('content-' + tabId);
-      const targetBtn = document.getElementById('tab-' + tabId);
-
-      if (targetContent) targetContent.classList.remove('hidden');
-      if (targetBtn) {
-        targetBtn.classList.add('active', 'border-cyan-500', 'text-cyan-400');
-        targetBtn.classList.remove('border-transparent', 'text-slate-400');
-      }
-    }
+      // Roteamento inicial por hash
+      const hash = window.location.hash.replace('#', '') || 'dashboard';
+      navigate(hash);
+    });
   </script>
 </body>
 </html>
